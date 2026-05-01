@@ -34,7 +34,7 @@ class Add extends StatelessWidget {
                         height: 200,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(55, 255, 82, 82),
+                          color: const Color.fromARGB(30, 255, 82, 82),
                           border: Border.all(width:2, color:  const Color.fromARGB(145, 244, 67, 54)),
                           borderRadius: BorderRadius.circular(20)
                         ),
@@ -50,9 +50,29 @@ class Add extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  child: Text("2nd container"),
-                )
+               Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 200,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(30, 76, 175, 79),
+                          border: Border.all(width:2, color: Colors.green),
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("AMOUNT", style: TextStyle(color: Colors.grey,fontSize: 18),),
+                            SizedBox(height: 10,),
+                            
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ]),
             )
           )
