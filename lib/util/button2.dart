@@ -8,7 +8,7 @@ class Button2 extends StatelessWidget {
     required this.onPressed,
     required this.name,
     required this.color,
-    super.key});
+    super.key,});
 
   @override
   Widget build(BuildContext context) {

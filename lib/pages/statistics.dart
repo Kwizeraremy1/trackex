@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:trackex/util/categoriesCard.dart';
 
@@ -83,9 +84,14 @@ class _StatisticsState extends State<Statistics> {
                                 icon2: Icons.trending_down,
                                 icon: Icons.house_rounded,
                                 amount: 1200.00,
-                                percentage: 32,                                
+                                percentage: 32,
                                 Percentagecolor: Colors.red,
-                                Iconcolor:const Color.fromARGB(255, 0, 65, 118),
+                                Iconcolor: const Color.fromARGB(
+                                  255,
+                                  0,
+                                  65,
+                                  118,
+                                ),
                               );
                             },
                           ),
@@ -96,35 +102,137 @@ class _StatisticsState extends State<Statistics> {
                 ),
                 Container(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 20, left: 20,),
+                    padding: const EdgeInsets.only(right: 20, left: 20),
                     child: Column(
                       children: [
                         Container(
-                          height: 400,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(30, 255, 255, 255),
+                            color: const Color.fromARGB(12, 255, 255, 255),
                             borderRadius: BorderRadius.circular(20),
-                          ),child: Padding(
+                          ),
+                          child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Column(
                               children: [
-                                Text("Monthly Spending Chart", style: TextStyle(color: Colors.white54, fontSize: 16),),
-                                Text("\$1,200.00", style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),),
+                                Text(
+                                  "Monthly Spending Chart",
+                                  style: TextStyle(
+                                    color: Colors.white54,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Text(
+                                  "Rwf 1,200.00",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                            
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(Icons.trending_up, color: Colors.greenAccent, size: 20,),
+                                    Icon(
+                                      Icons.trending_up,
+                                      color: Colors.greenAccent,
+                                      size: 20,
+                                    ),
                                     SizedBox(width: 5),
-                                    Text("5.00% from last month", style: TextStyle(color: Colors.greenAccent, fontSize: 14),),
-                                    SizedBox(height: 10,),
-                                    
+                                    Text(
+                                      "5.00% from last month",
+                                      style: TextStyle(
+                                        color: Colors.greenAccent,
+                                        fontSize: 14,
+                                      ),
+                                    ),
                                   ],
-                                )
+                                ),
+                                SizedBox(height: 50),
+                                SizedBox(
+                                  height: 200, // ✅ fixed height for chart
+                                  child: LineChart(
+                                    LineChartData(
+                                      minX: 0,
+                                      maxX: 12,
+                                      minY: 0,
+                                      maxY: 3000,
+                                      gridData: FlGridData(
+                                        show: true,
+                                        drawVerticalLine: false,
+                                      ),
+
+                                      borderData: FlBorderData(show: false),
+                                      titlesData: FlTitlesData(
+                                        rightTitles: AxisTitles(
+                                          sideTitles: SideTitles(
+                                            showTitles: false
+                                          )
+                                        ),
+                                        topTitles: AxisTitles(
+                                          sideTitles: SideTitles(
+                                            showTitles: false
+                                          )
+                                        ),
+                                        show: true),
+                                      lineBarsData: [
+                                        LineChartBarData(
+                                          spots: [
+                                            FlSpot(0, 200),
+                                            FlSpot(1, 950),
+                                            FlSpot(2, 700),
+                                            FlSpot(3, 1100),
+                                            FlSpot(4, 1900),
+                                            FlSpot(5, 200),
+                                            FlSpot(6, 950),
+                                            FlSpot(7, 700),
+                                            FlSpot(8, 1100),
+                                            FlSpot(9, 1900),
+                                            FlSpot(10, 1100),
+                                            FlSpot(11, 1900),
+                                            FlSpot(
+                                              12,
+                                              1900,
+                                            ),
+                                          ],
+                                          isCurved: false,
+                                          color: Colors.blueAccent,
+                                          barWidth: 2,
+                                          dotData: FlDotData(show: false),
+                                        ),
+                                        LineChartBarData(
+                                          spots: [
+                                            FlSpot(0, 700),
+                                            FlSpot(1, 850),
+                                            FlSpot(2, 900),
+                                            FlSpot(3, 1500),
+                                            FlSpot(4, 1100),
+                                            FlSpot(5, 700),
+                                            FlSpot(6, 850),
+                                            FlSpot(7, 900),
+                                            FlSpot(8, 1500),
+                                            FlSpot(9, 1100),
+                                            FlSpot(10, 1500),
+                                            FlSpot(11, 1100),
+                                            FlSpot(
+                                              12,
+                                              1200,
+                                            ),
+                                          ],
+                                          isCurved: false,
+                                          color: Colors.redAccent,
+                                          barWidth: 2,
+                                          dotData: FlDotData(show: false),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

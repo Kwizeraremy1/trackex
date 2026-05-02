@@ -126,248 +126,240 @@ class _AddState extends State<Add> {
                 padding: const EdgeInsets.only(right: 20, left: 20, top: 20),
                 child: TabBarView(
                   children: [
-                    Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            "AMOUNT",
-                            style: TextStyle(color: Colors.grey, fontSize: 18),
-                          ),
-                          SizedBox(height: 5),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "Rwf  ",
+                    SingleChildScrollView(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              "AMOUNT",
+                              style: TextStyle(color: Colors.grey, fontSize: 18),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              textToDisplay1,
+                              style: TextStyle(
+                                fontSize: 60,
+                                color: Colors.blueAccent,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                             Text(
+                                  "Rwf",
                                   style: TextStyle(
                                     fontSize: 30,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10, left: 10),
+                              child: DropdownButtonFormField(
+                                style: TextStyle(color: Colors.white),
+                                borderRadius: BorderRadius.circular(15),
+                                dropdownColor: const Color.fromARGB(
+                                  255,
+                                  70,
+                                  59,
+                                  131,
+                                ),
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(10),
+                                  labelText: "Select category",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                items: Categories.map((item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(item),
+                                  );
+                                }).toList(),
+                                onChanged: (item) {
+                                  setState(() {
+                                    selected_category = item!;
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10, left: 10),
+                              child: DropdownButtonFormField(
+                                style: TextStyle(color: Colors.white),
+                                borderRadius: BorderRadius.circular(15),
+                                dropdownColor: const Color.fromARGB(
+                                  255,
+                                  70,
+                                  59,
+                                  131,
+                                ),
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(10),
+                                  labelText: "Form of payment",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                items: ['Cash', 'Momo', 'Bank', 'Loan'].map((
+                                  item,
+                                ) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(item),
+                                  );
+                                }).toList(),
+                                onChanged: (item) {
+                                  setState(() {
+                                    selected_form = item!;
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10, left: 10),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  maintainHintSize: true,
+                                  labelText: "Add a note...",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            SizedBox(
+                              height: 320,
+                              child: GridView.builder(
+                                itemCount: ButtonsExpense.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                      mainAxisExtent: 80,
+                                      crossAxisCount: 3,
+                                    ),
+                                itemBuilder: (BuildContext, index) {
+                                  return ButtonsExpense[index];
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
                                 Text(
-                                  textToDisplay1,
+                                  "AMOUNT",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  textToDisplay2,
                                   style: TextStyle(
                                     fontSize: 60,
-                                    color: Colors.blueAccent,
+                                    color: Colors.greenAccent,
                                     fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                 Text(
+                                "Rwf",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Text(
+                                  "Category",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white54,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10, left: 10),
-                            child: DropdownButtonFormField(
-                              style: TextStyle(color: Colors.white),
-                              borderRadius: BorderRadius.circular(15),
-                              dropdownColor: const Color.fromARGB(
-                                255,
-                                70,
-                                59,
-                                131,
-                              ),
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(10),
-                                labelText: "Select category",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10, left: 10),
+                              child: DropdownButtonFormField(
+                                style: TextStyle(color: Colors.white),
+                                borderRadius: BorderRadius.circular(15),
+                                dropdownColor: const Color.fromARGB(
+                                  255,
+                                  70,
+                                  59,
+                                  131,
                                 ),
-                              ),
-                              items: Categories.map((item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(item),
-                                );
-                              }).toList(),
-                              onChanged: (item) {
-                                setState(() {
-                                  selected_category = item!;
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10, left: 10),
-                            child: DropdownButtonFormField(
-                              style: TextStyle(color: Colors.white),
-                              borderRadius: BorderRadius.circular(15),
-                              dropdownColor: const Color.fromARGB(
-                                255,
-                                70,
-                                59,
-                                131,
-                              ),
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(10),
-                                labelText: "Form of payment",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              items: ['Cash', 'Momo', 'Bank', 'Loan'].map((
-                                item,
-                              ) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(item),
-                                );
-                              }).toList(),
-                              onChanged: (item) {
-                                setState(() {
-                                  selected_form = item!;
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10, left: 10),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                maintainHintSize: true,
-                                labelText: "Add a note...",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          SizedBox(
-                            height: 320,
-                            child: GridView.builder(
-                              itemCount: ButtonsExpense.length,
-                              physics: NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                    mainAxisExtent: 80,
-                                    crossAxisCount: 3,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(10),
+                                  labelText: "Money Type",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                              itemBuilder: (BuildContext, index) {
-                                return ButtonsExpense[index];
-                              },
+                                ),
+                                items: ['Cash', 'Momo', 'Bank'].map((item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(item),
+                                  );
+                                }).toList(),
+                                onChanged: (item) {
+                                  setState(() {
+                                    selected_form_Income = item!;
+                                  });
+                                },
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "AMOUNT",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 18,
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10, left: 10),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  maintainHintSize: true,
+                                  labelText: "Add a note...",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
                                 ),
                               ),
-                              SizedBox(height: 10),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "\$  ",
-                                    style: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                            ),
+                            SizedBox(height: 10),
+                            SizedBox(
+                              height: 320,
+                              child: GridView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: ButtonsIncome.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                      mainAxisExtent: 80,
+                                      crossAxisCount: 3,
                                     ),
-                                  ),
-                                  Text(
-                                    textToDisplay2,
-                                    style: TextStyle(
-                                      fontSize: 60,
-                                      color: Colors.greenAccent,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Text(
-                                "Category",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white54,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10, left: 10),
-                            child: DropdownButtonFormField(
-                              style: TextStyle(color: Colors.white),
-                              borderRadius: BorderRadius.circular(15),
-                              dropdownColor: const Color.fromARGB(
-                                255,
-                                70,
-                                59,
-                                131,
-                              ),
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(10),
-                                labelText: "Money Type",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              items: ['Cash', 'Momo', 'Bank'].map((item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(item),
-                                );
-                              }).toList(),
-                              onChanged: (item) {
-                                setState(() {
-                                  selected_form_Income = item!;
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10, left: 10),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                maintainHintSize: true,
-                                labelText: "Add a note...",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
+                                itemBuilder: (BuildContext, index) {
+                                  return ButtonsIncome[index];
+                                },
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          SizedBox(
-                            height: 320,
-                            child: GridView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: ButtonsIncome.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                    mainAxisExtent: 80,
-                                    crossAxisCount: 3,
-                                  ),
-                              itemBuilder: (BuildContext, index) {
-                                return ButtonsIncome[index];
-                              },
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
