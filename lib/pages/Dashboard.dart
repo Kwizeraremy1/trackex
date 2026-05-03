@@ -119,7 +119,7 @@ class Dashboard extends StatelessWidget {
                                 Text(
                                   "Rwf 2,000.00",
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -156,7 +156,7 @@ class Dashboard extends StatelessWidget {
                                 Text(
                                   "Rwf 2,000.00",
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -186,7 +186,7 @@ class Dashboard extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 10),
                     child: Container(
                       height: 130,
-                      width: 130,
+                      width: 170,
                       decoration: BoxDecoration(
                         color: Colors.white24,
                         borderRadius: BorderRadius.circular(20),

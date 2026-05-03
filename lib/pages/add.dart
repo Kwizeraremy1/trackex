@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trackex/database/databaseData.dart';
 import 'package:trackex/util/calButton.dart';
 
 class Add extends StatefulWidget {
@@ -15,6 +16,7 @@ class _AddState extends State<Add> {
   String? selected_form;
   String? selected_form_Income;
   DateTime? Date;
+  final db = Databasedata();
 
   void handleNumberPress(String num) {
     setState(() {
@@ -96,13 +98,6 @@ class _AddState extends State<Add> {
     CalButton(text: "0", onPressed: () => handleNumberPressIncome('0')),
     CalButton(text: "Send", buttonColor: Colors.greenAccent, onPressed: () {}),
   ];
-  final Categories = [
-    "Food",
-    "Transport",
-    "Entertainment",
-    "Health",
-    "Education",
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,7 +127,10 @@ class _AddState extends State<Add> {
                           children: [
                             Text(
                               "AMOUNT",
-                              style: TextStyle(color: Colors.grey, fontSize: 18),
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 18,
+                              ),
                             ),
                             SizedBox(height: 5),
                             Text(
@@ -143,49 +141,80 @@ class _AddState extends State<Add> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                             Text(
-                                  "Rwf",
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                            Text(
+                              "Rwf",
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             SizedBox(height: 10),
                             Padding(
-                              padding: const EdgeInsets.only(right: 10, left: 10),
-                              child: DropdownButtonFormField(
-                                style: TextStyle(color: Colors.white),
-                                borderRadius: BorderRadius.circular(15),
-                                dropdownColor: const Color.fromARGB(
-                                  255,
-                                  70,
-                                  59,
-                                  131,
-                                ),
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(10),
-                                  labelText: "Select category",
-                                  border: OutlineInputBorder(
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                                left: 10,
+                              ),
+                              child: FutureBuilder(
+                                future: db.getCategory(),
+                                builder: (context, Snapshot) {
+                                  if (Snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Container(
+                                      height: 50,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.white24,
+                                        ),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Center(
+                                        child: Row(
+                                          children: [Text("Loading...")],
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  final category = Snapshot.data;
+                                  return DropdownButtonFormField(
+                                    value: selected_category,
+                                    style: TextStyle(color: Colors.white),
                                     borderRadius: BorderRadius.circular(15),
-                                  ),
-                                ),
-                                items: Categories.map((item) {
-                                  return DropdownMenuItem<String>(
-                                    value: item,
-                                    child: Text(item),
+                                    dropdownColor: const Color.fromARGB(
+                                      255,
+                                      70,
+                                      59,
+                                      131,
+                                    ),
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(10),
+                                      labelText: "Select category",
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                    ),
+                                    items: category?.map((item) {
+                                      return DropdownMenuItem<String>(
+                                        value: item['id'].toString(),
+                                        child: Text(item['name']),
+                                      );
+                                    }).toList(),
+                                    onChanged: (item) {
+                                      setState(() {
+                                        selected_category = item!;
+                                      });
+                                    },
                                   );
-                                }).toList(),
-                                onChanged: (item) {
-                                  setState(() {
-                                    selected_category = item!;
-                                  });
                                 },
                               ),
                             ),
                             SizedBox(height: 10),
                             Padding(
-                              padding: const EdgeInsets.only(right: 10, left: 10),
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                                left: 10,
+                              ),
                               child: DropdownButtonFormField(
                                 style: TextStyle(color: Colors.white),
                                 borderRadius: BorderRadius.circular(15),
@@ -219,12 +248,31 @@ class _AddState extends State<Add> {
                             ),
                             SizedBox(height: 10),
                             Padding(
-                              padding: const EdgeInsets.only(right: 10, left: 10),
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                                left: 10,
+                                bottom: 10,
+                              ),
                               child: TextField(
                                 decoration: InputDecoration(
-                                  fillColor: Colors.white,
+                                  labelText: "To",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                                left: 10,
+                              ),
+                              child: TextField(
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
                                   maintainHintSize: true,
                                   labelText: "Add a note...",
+                                  labelStyle: TextStyle(color: Colors.white54),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -274,14 +322,14 @@ class _AddState extends State<Add> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                 Text(
-                                "Rwf",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  "Rwf",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
                               ],
                             ),
                             SizedBox(height: 10),
@@ -299,7 +347,10 @@ class _AddState extends State<Add> {
                             ),
                             SizedBox(height: 10),
                             Padding(
-                              padding: const EdgeInsets.only(right: 10, left: 10),
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                                left: 10,
+                              ),
                               child: DropdownButtonFormField(
                                 style: TextStyle(color: Colors.white),
                                 borderRadius: BorderRadius.circular(15),
@@ -311,7 +362,7 @@ class _AddState extends State<Add> {
                                 ),
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(10),
-                                  labelText: "Money Type",
+                                  labelText: "Via ",
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -331,7 +382,25 @@ class _AddState extends State<Add> {
                             ),
                             SizedBox(height: 10),
                             Padding(
-                              padding: const EdgeInsets.only(right: 10, left: 10),
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                                left: 10,
+                                bottom: 10,
+                              ),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  labelText: "From",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                                left: 10,
+                              ),
                               child: TextField(
                                 decoration: InputDecoration(
                                   maintainHintSize: true,
