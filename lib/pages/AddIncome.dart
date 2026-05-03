@@ -54,7 +54,7 @@ class _AddincomeState extends State<Addincome> {
     CalButton(text: "9",buttonColor: Colors.greenAccent, onPressed: () => handleNumberPressIncome('9')),
     CalButton(text: "<-",buttonColor: Colors.greenAccent, onPressed: () => handleDeleteIncome()),
     CalButton(text: "0",buttonColor: Colors.greenAccent, onPressed: () => handleNumberPressIncome('0')),
-    CalButton(text: "Send", buttonColor: Colors.black, onPressed: () {}),
+    CalButton(text: "Send", buttonColor: Colors.white, onPressed: () {}),
   ];
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class _AddincomeState extends State<Addincome> {
             "Rwf",
             style: TextStyle(
               fontSize: 30,
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),

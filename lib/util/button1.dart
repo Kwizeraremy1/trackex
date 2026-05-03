@@ -21,26 +21,24 @@ class Button1 extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: colorAll,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(width: 1, color: color)
         ),
         child: Padding(
           padding: const EdgeInsets.only(
             right: 30,
             left: 30,
-            top: 10,
-            bottom: 10,
+            top: 15,
+            bottom: 15,
           ),
           child: Row(
             children: [
-              Container(
-                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Icon(Icons.add, color: Colors.white, size: 18),
-                ),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Icon(Icons.add, color: color, size: 18),
               ),
               SizedBox(width: 5),
-              Text(name, style: TextStyle(fontSize: 18)),
+              Text(name, style: TextStyle(fontSize: 18, color: color, fontWeight: FontWeight.bold)),
             ],
           ),
         ),

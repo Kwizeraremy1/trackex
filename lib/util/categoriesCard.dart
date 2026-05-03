@@ -26,8 +26,9 @@ class Categoriescard extends StatelessWidget {
       padding: const EdgeInsets.all(3.0),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color.fromARGB(30, 255, 255, 255),
+          color: const Color.fromARGB(45, 28, 60, 115),
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(width: 1, color: const Color.fromARGB(117, 0, 52, 94))
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -37,8 +38,9 @@ class Categoriescard extends StatelessWidget {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(142, 0, 0, 0),
-                      shape: BoxShape.circle,
+                      color: const Color.fromARGB(142, 0, 32, 88),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(width: 0.5, color: const Color.fromARGB(148, 72, 139, 255))
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),

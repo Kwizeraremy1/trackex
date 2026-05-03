@@ -55,7 +55,7 @@ class _AddexpenseState extends State<Addexpense> {
     CalButton(text: "9", onPressed: () => handleNumberPress('9')),
     CalButton(text: "<-", onPressed: () => handleDelete()),
     CalButton(text: "0", onPressed: () => handleNumberPress('0')),
-    CalButton(text: "Send", buttonColor: Colors.black, onPressed: () {}),
+    CalButton(text: "Send", buttonColor: Colors.white, onPressed: () {}),
   ];
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _AddexpenseState extends State<Addexpense> {
             "Rwf",
             style: TextStyle(
               fontSize: 30,
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -106,7 +106,7 @@ class _AddexpenseState extends State<Addexpense> {
                     height: 50,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
+                      border: Border.all(color: Colors.white54),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Center(child: Row(

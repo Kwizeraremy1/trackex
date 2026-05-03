@@ -5,6 +5,7 @@ import 'package:trackex/pages/AddIncome.dart';
 import 'package:trackex/pages/addExpense.dart';
 import 'package:trackex/pages/profile.dart';
 import 'package:trackex/util/button1.dart';
+import 'package:intl/intl.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -18,7 +19,7 @@ class Dashboard extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
+      padding: const EdgeInsets.only(right: 25, left: 25, top: 10),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -51,22 +52,12 @@ class Dashboard extends StatelessWidget {
                               style: TextStyle(fontSize: 22),
                             ),
                             Text(
-                              "August 15th",)
+                              DateFormat('dd MMM yyyy').format(
+                                DateTime.now(),
+                              ),
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ],
-                        ),
-                        Spacer(),
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.white24,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Icon(
-                            Icons.logout,
-                            color: Colors.white,
-                            size: 20,
-                          ),
                         ),
                       ],
                     ),
@@ -87,19 +78,29 @@ class Dashboard extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          width: 50,
-                          height: 50,
+                          padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
-                            color: Colors.blueAccent,
                             shape: BoxShape.circle,
+                            color: const Color.fromARGB(71, 68, 137, 255)
                           ),
-                          child: Center(
-                            child: Text(
-                              "${profile?['names']?[0] ?? "0"}",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                const Color.fromARGB(255, 120, 170, 255),
+                                Colors.blueAccent,
+                              ]),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                "${profile?['names']?[0] ?? "0"}",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
@@ -113,9 +114,7 @@ class Dashboard extends StatelessWidget {
                               "Hello, ${profile?['names'] ?? "No name"}",
                               style: TextStyle(fontSize: 22),
                             ),
-                            Text(
-                              "August 15th",
-                            ),
+                            Text(DateFormat('dd MMM yyyy').format(DateTime.now()),style: TextStyle(fontSize: 16),)
                           ],
                         ),
                         Spacer(),
@@ -128,6 +127,7 @@ class Dashboard extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: Colors.black26,
                               borderRadius: BorderRadius.circular(10),
+                              border: Border.all(width: 0.2, color: Colors.black)
                             ),
                             child: Icon(
                               Icons.logout,
@@ -144,7 +144,7 @@ class Dashboard extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Container(
-              height: 200,
+              height: 220,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.blueAccent,
@@ -153,18 +153,19 @@ class Dashboard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Total Balance", style: TextStyle(fontSize: 18)),
+                  Text("Total Balance", style: TextStyle(fontSize: 18,color: Colors.white)),
                   SizedBox(height: 5),
                   Text(
                     "Rwf 1,250.00",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   SizedBox(height: 5),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
-                      color: Colors.greenAccent,
+                      color: const Color.fromARGB(100, 105, 240, 175),
                       borderRadius: BorderRadius.circular(10),
+                      border: Border.all(width: 0.5, color: Colors.greenAccent)
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -187,15 +188,16 @@ class Dashboard extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.greenAccent,
+                                color: const Color.fromARGB(70, 105, 240, 175),
                                 shape: BoxShape.circle,
+                                border: Border.all(width: 0.5, color: Colors.greenAccent)
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Icon(
                                   Icons.arrow_downward,
-                                  color: Colors.white,
-                                  size: 30,
+                                  color: Colors.greenAccent,
+                                  size: 20,
                                 ),
                               ),
                             ),
@@ -224,15 +226,16 @@ class Dashboard extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.redAccent,
+                                color: const Color.fromARGB(70, 255, 82, 82),
                                 shape: BoxShape.circle,
+                                border: Border.all(width: 0.5, color: Colors.redAccent)
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Icon(
                                   Icons.arrow_upward,
-                                  color: Colors.white,
-                                  size: 30,
+                                  color: Colors.redAccent,
+                                  size: 20,
                                 ),
                               ),
                             ),
@@ -262,7 +265,7 @@ class Dashboard extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Container(
-              height: 130,
+              height: 120,
               width: double.infinity,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -271,11 +274,12 @@ class Dashboard extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: Container(
-                      height: 130,
+                      height: 100,
                       width: 170,
                       decoration: BoxDecoration(
-                        color: Colors.black26,
-                        borderRadius: BorderRadius.circular(20),
+                        color: const Color.fromARGB(45, 28, 60, 115),
+                        borderRadius: BorderRadius.circular(20),                        
+                                border: Border.all(width: 0.5, color: const Color.fromARGB(255, 0, 31, 84))
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
@@ -285,8 +289,8 @@ class Dashboard extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.shopping_cart,
-                              color: Colors.lightBlueAccent,
-                              size: 30,
+                              color: Colors.blueGrey,
+                              size: 25,
                             ),
                             SizedBox(height: 10),
                             Text(
@@ -296,12 +300,11 @@ class Dashboard extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 5),
                             Text(
                               "Shopping",
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Colors.blueGrey,
+                                color: Colors.greenAccent,
                               ),
                             ),
                           ],
@@ -312,7 +315,7 @@ class Dashboard extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: 5),
+            SizedBox(height: 10),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -320,14 +323,14 @@ class Dashboard extends StatelessWidget {
                   Button1(
                     name: "Add Expense",
                     color: Colors.blueAccent,
-                    colorAll: Colors.blueGrey,
+                    colorAll: const Color.fromARGB(80, 68, 137, 255),
                     onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>Addexpense())),
                   ),
                   SizedBox(width: 5),
                   Button1(
                     name: "Add Income",
                     color: Colors.greenAccent,
-                    colorAll: Colors.grey,
+                    colorAll: const Color.fromARGB(80, 105, 240, 175),
                     onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>Addincome())),
                   ),
                 ],
@@ -338,28 +341,28 @@ class Dashboard extends StatelessWidget {
               children: [
                 Text("Recent Transactions", style: TextStyle(fontSize: 18)),
                 Spacer(),
-                Text("See all", style: TextStyle(color: Colors.white54)),
+                Text("See all", style: TextStyle(color: Colors.blueAccent)),
               ],
             ),
             SizedBox(height: 10),
             Row(
               children: [
-                Text("Today:  ", style: TextStyle(fontSize: 18)),
-                Text(
-                  "${DateTime.now().month.toString()}, ${DateTime.now().day.toString()}",
-                ),
+                Text('Today, '),
+                Text(DateFormat('dd MMM').format(DateTime.now()),style: TextStyle(fontSize: 16),)
+                          
               ],
             ),
             ListView.builder(
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: Container(
-                    height: 70,
+                    height: 80,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.black12,
+                      color: const Color.fromARGB(45, 28, 60, 115),
                       borderRadius: BorderRadius.circular(20),
+                      border: Border.all(width: 0.5, color: const Color.fromARGB(255, 0, 29, 52))
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -369,8 +372,16 @@ class Dashboard extends StatelessWidget {
                             width: 50,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: Colors.blueAccent,
-                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  const Color.fromARGB(117, 0, 44, 119),
+                                  const Color.fromARGB(104, 0, 14, 37),
+                                ]
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(width: 0.5, color: const Color.fromARGB(62, 49, 137, 209))
                             ),
                             child: Icon(
                               Icons.shopping_cart,
@@ -386,7 +397,7 @@ class Dashboard extends StatelessWidget {
                               Text("Shopping", style: TextStyle(fontSize: 18)),
                               Text(
                                 "Aug 15th, 2024",
-                                style: TextStyle(color: Colors.blueGrey),
+                                style: TextStyle(color: Colors.red),
                               ),
                             ],
                           ),
@@ -404,7 +415,7 @@ class Dashboard extends StatelessWidget {
                   ),
                 );
               },
-              itemCount: 10,
+              itemCount: 5,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
             ),

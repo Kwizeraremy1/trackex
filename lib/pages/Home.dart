@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trackex/pages/Dashboard.dart';
-import 'package:trackex/pages/add.dart';
 import 'package:trackex/pages/statistics.dart';
 import 'package:trackex/util/navBar.dart';
 

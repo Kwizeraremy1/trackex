@@ -19,7 +19,7 @@ class _StatisticsState extends State<Statistics> {
         children: [
           AppBar(title: Text("Statistics"), centerTitle: true),
           TabBar(
-            labelColor: Colors.white,
+            labelColor: const Color.fromARGB(255, 28, 60, 115),
             dividerColor: Colors.transparent,
             labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             indicatorColor: Colors.transparent,
@@ -63,12 +63,10 @@ class _StatisticsState extends State<Statistics> {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white54,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
                         Expanded(
                           child: GridView.builder(
                             itemCount: 8,
@@ -86,12 +84,7 @@ class _StatisticsState extends State<Statistics> {
                                 amount: 1200.00,
                                 percentage: 32,
                                 Percentagecolor: Colors.red,
-                                Iconcolor: const Color.fromARGB(
-                                  255,
-                                  0,
-                                  65,
-                                  118,
-                                ),
+                                Iconcolor: const Color.fromARGB(255, 0, 117, 213),
                               );
                             },
                           ),
@@ -108,7 +101,7 @@ class _StatisticsState extends State<Statistics> {
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(12, 255, 255, 255),
+                            color: const Color.fromARGB(45, 28, 60, 115),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
@@ -318,7 +311,6 @@ class BudgetRingWidget extends StatelessWidget {
               Text(
                 '\$${_formatAmount(amount)}',
                 style: const TextStyle(
-                  color: Colors.white,
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                   letterSpacing: -0.5,
