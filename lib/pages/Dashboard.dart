@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trackex/Auth/authFunction.dart';
+import 'package:trackex/database/databaseData.dart';
 import 'package:trackex/pages/profile.dart';
 import 'package:trackex/util/button1.dart';
 
@@ -7,57 +9,146 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String Name = "Michael";
+    final suth = Authfunction();
+    final db = Databasedata();
+    void signOut() async {
+      await suth.SignOut();
+    }
+
     return Padding(
       padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
       child: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(height: 10),
-            InkWell(
-              onTap: () {
-                Navigator.push(context, (MaterialPageRoute(builder: (context) => Profile())));
-              },
-              borderRadius: BorderRadius.circular(10),
-              child: Container(
-                height: 100,
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(child: Text(Name[0], style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold))),
-                    ),
-                    SizedBox(width: 15),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            FutureBuilder(
+              future: db.getProfile(),
+              builder: (context, Snapshot) {
+                if (Snapshot.connectionState == ConnectionState.waiting) {
+                  return Container(
+                    height: 100,
+                    width: double.infinity,
+                    child: Row(
                       children: [
-                        Text("Hello ${Name},", style: TextStyle(fontSize: 22)),
-                        Text(
-                          "August 15th",
-                          style: TextStyle(fontSize: 15, color: Colors.white54),
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(child: Icon(Icons.person_2_rounded)),
+                        ),
+                        SizedBox(width: 15),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Loading Name...",
+                              style: TextStyle(fontSize: 22),
+                            ),
+                            Text(
+                              "August 15th",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.white54,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white24,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            Icons.logout,
+                            color: Colors.white,
+                            size: 20,
+                          ),
                         ),
                       ],
                     ),
-                    Spacer(),
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white24,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Icon(Icons.logout, color: Colors.white, size: 20),
+                  );
+                }
+                final profile = Snapshot.data;
+                print("======================$profile===============");
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      (MaterialPageRoute(builder: (context) => Profile())),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    height: 100,
+                    width: double.infinity,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "${profile?['names']?[0] ?? "0"}",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 15),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Hello, ${profile?['names'] ?? "No name"}",
+                              style: TextStyle(fontSize: 22),
+                            ),
+                            Text(
+                              "August 15th",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.white54,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        InkWell(
+                          borderRadius: BorderRadius.circular(10),
+                          onTap: () => signOut(),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.white24,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Icon(
+                              Icons.logout,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
             SizedBox(height: 10),
             Container(
@@ -88,7 +179,10 @@ class Dashboard extends StatelessWidget {
                       children: [
                         Icon(Icons.trending_up, color: Colors.white, size: 16),
                         SizedBox(width: 5),
-                        Text("Rwf 250.00", style: TextStyle(color: Colors.white)),
+                        Text(
+                          "Rwf 250.00",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ],
                     ),
                   ),

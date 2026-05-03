@@ -1,9 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:trackex/pages/Home.dart';
+import 'package:trackex/Auth/authFunction.dart';
+import 'package:trackex/pages/signUp.dart';
 import 'package:trackex/util/button2.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final auth = Authfunction();
+  var isLoading = false;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  void login() async {
+    FocusScope.of(context).unfocus();
+    final email = emailController.text;
+    final password = passwordController.text;
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Enter email and password first")));
+      return;
+    } else if (!email.contains("@")) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Enter a valid email")));
+      return;
+    } else {
+      try {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Center(child: CircularProgressIndicator()),
+            );
+          },
+        );
+        await auth.SignIn(email, password);
+        emailController.clear();
+        passwordController.clear();
+        Navigator.pop(context);
+      } catch (e) {
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "Invalid credentials",
+                style: TextStyle(color: const Color.fromARGB(255, 255, 0, 0)),
+              ),
+            ),
+          );
+          Navigator.pop(context);
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,29 +114,25 @@ class Login extends StatelessWidget {
                   Text("Master Your Finances, Simplify Your Life"),
                   SizedBox(height: 20),
                   TextField(
-                    style: TextStyle(
-                      color: Colors.white
-                    ),
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: "Email",
-                      labelStyle: TextStyle(
-                        color: Colors.white54
-                      ),
-                      border: OutlineInputBorder(                        
+                      labelStyle: TextStyle(color: Colors.white54),
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
                   SizedBox(height: 10),
                   TextField(
-                    style: TextStyle(
-                      color: Colors.white
-                    ),
+                    controller: passwordController,
+                    obscureText: true,
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: "Password",
-                      labelStyle: TextStyle(
-                        color: Colors.white54
-                      ),
+                      labelStyle: TextStyle(color: Colors.white54),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -86,31 +140,23 @@ class Login extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Button2(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      );
-                    },
+                    onPressed: () => login(),
                     name: "Login",
                     color: Colors.blueAccent,
                   ),
                   SizedBox(height: 10),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "Don't have an account? ",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Text(
-                        "Create Account",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.blueAccent,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    "Don't have an account? ",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 10),
+                  Button2(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Signup()),
+                    ),
+                    name: "Sign up",
+                    color: Colors.greenAccent,
                   ),
                 ],
               ),

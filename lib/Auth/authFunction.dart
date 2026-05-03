@@ -11,12 +11,10 @@ class Authfunction {
   }
 
   Future<AuthResponse> SignUp(
-    String phone,
     String email,
     String password,
   ) async {
     return await supabase.auth.signUp(
-      phone: phone,
       email: email,
       password: password,
     );

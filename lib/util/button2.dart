@@ -8,7 +8,8 @@ class Button2 extends StatelessWidget {
     required this.onPressed,
     required this.name,
     required this.color,
-    super.key,});
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class Button2 extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius:BorderRadius.circular(10),
         ),
         child: Center(
           child: Text(
