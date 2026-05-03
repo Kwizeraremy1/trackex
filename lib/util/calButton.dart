@@ -4,7 +4,7 @@ class CalButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String text;
   final buttonColor;
-  const CalButton({this.onPressed, required this.text, this.buttonColor = Colors.white54,super.key});
+  const CalButton({this.onPressed, required this.text, this.buttonColor = Colors.blueAccent,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class CalButton extends StatelessWidget {
             text,
             style: TextStyle(
               color: buttonColor,
-              fontSize: 30,
+              fontSize: 35,
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:trackex/Auth/authFunction.dart';
 import 'package:trackex/pages/signUp.dart';
@@ -74,91 +76,93 @@ class _LoginState extends State<Login> {
           image: DecorationImage(
             image: AssetImage("assets/images/background.png"),
             fit: BoxFit.cover,
-            opacity: 0.15,
+            opacity: 0.7,
           ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              height: 500,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: const Color.fromARGB(30, 255, 255, 255),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "track",
-                        style: TextStyle(
-                          fontSize: 55,
-                          fontWeight: FontWeight.w900,
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+              child: Container(
+                padding: EdgeInsets.all(20),
+                height: 500,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "track",
+                          style: TextStyle(
+                            fontSize: 55,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        Text(
+                          "Ex",
+                          style: TextStyle(
+                            fontSize: 55,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text("Master Your Finances, Simplify Your Life", style: TextStyle(color: Colors.white),),
+                    SizedBox(height: 20),
+                    TextField(
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: "Email",
+                        labelStyle: TextStyle(color: Colors.white54),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      Text(
-                        "Ex",
-                        style: TextStyle(
-                          fontSize: 55,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.blueAccent,
+                    ),
+                    SizedBox(height: 10),
+                    TextField(
+                      controller: passwordController,
+                      obscureText: true,
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        labelStyle: TextStyle(color: Colors.white54),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                    ],
-                  ),
-                  Text("Master Your Finances, Simplify Your Life"),
-                  SizedBox(height: 20),
-                  TextField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    style: TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      labelText: "Email",
-                      labelStyle: TextStyle(color: Colors.white54),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    ),
+                    SizedBox(height: 10),
+                    Button2(
+                      onPressed: () => login(),
+                      name: "Login",
+                      color: Colors.blueAccent,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Don't have an account? ",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Button2(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Signup()),
                       ),
+                      name: "Sign up",
+                      color: Colors.greenAccent,
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: passwordController,
-                    obscureText: true,
-                    style: TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      labelText: "Password",
-                      labelStyle: TextStyle(color: Colors.white54),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Button2(
-                    onPressed: () => login(),
-                    name: "Login",
-                    color: Colors.blueAccent,
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Don't have an account? ",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 10),
-                  Button2(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Signup()),
-                    ),
-                    name: "Sign up",
-                    color: Colors.greenAccent,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

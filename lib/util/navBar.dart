@@ -46,7 +46,7 @@ class _NavButton extends StatelessWidget {
           width: 55,
           height: 55,
           decoration: BoxDecoration(
-            color: isSelected ? Colors.white : const Color.fromARGB(52, 255, 255, 255),
+            color: isSelected ? Colors.white : const Color.fromARGB(101, 0, 0, 0),
             borderRadius: BorderRadius.circular(10), // rounded square
             boxShadow: [
               BoxShadow(

@@ -4,12 +4,14 @@ class Button1 extends StatelessWidget {
   final name;
   final color;
   final VoidCallback onPressed;
+  final colorAll;
   const Button1({
     super.key,
     this.name = "Button1",
     this.color = Colors.greenAccent,
+    required this.colorAll,
     required this.onPressed,
-    });
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +20,20 @@ class Button1 extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white24,
+          color: colorAll,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(
           padding: const EdgeInsets.only(
-            right: 40,
-            left: 40,
+            right: 30,
+            left: 30,
             top: 10,
             bottom: 10,
           ),
           child: Row(
             children: [
               Container(
-                decoration: BoxDecoration(
-                  color: color,
-                  shape: BoxShape.circle,
-                ),
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Icon(Icons.add, color: Colors.white, size: 18),

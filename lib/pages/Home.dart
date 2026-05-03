@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _pages = [Dashboard(),Add(), Statistics()];
+  final _pages = [Dashboard(), Statistics()];
 
   int _selectedIndex = 0;
 

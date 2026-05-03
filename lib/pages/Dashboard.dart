@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:trackex/Auth/authFunction.dart';
 import 'package:trackex/database/databaseData.dart';
+import 'package:trackex/pages/AddIncome.dart';
+import 'package:trackex/pages/addExpense.dart';
 import 'package:trackex/pages/profile.dart';
 import 'package:trackex/util/button1.dart';
 
@@ -49,12 +51,7 @@ class Dashboard extends StatelessWidget {
                               style: TextStyle(fontSize: 22),
                             ),
                             Text(
-                              "August 15th",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white54,
-                              ),
-                            ),
+                              "August 15th",)
                           ],
                         ),
                         Spacer(),
@@ -76,7 +73,6 @@ class Dashboard extends StatelessWidget {
                   );
                 }
                 final profile = Snapshot.data;
-                print("======================$profile===============");
                 return InkWell(
                   onTap: () {
                     Navigator.push(
@@ -119,10 +115,6 @@ class Dashboard extends StatelessWidget {
                             ),
                             Text(
                               "August 15th",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white54,
-                              ),
                             ),
                           ],
                         ),
@@ -134,7 +126,7 @@ class Dashboard extends StatelessWidget {
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
-                              color: Colors.white24,
+                              color: Colors.black26,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Icon(
@@ -155,7 +147,7 @@ class Dashboard extends StatelessWidget {
               height: 200,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(80, 105, 240, 175),
+                color: Colors.blueAccent,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -219,7 +211,7 @@ class Dashboard extends StatelessWidget {
                                 ),
                                 Text(
                                   "Total income",
-                                  style: TextStyle(color: Colors.white54),
+                                  style: TextStyle(color: Colors.white60),
                                 ),
                               ],
                             ),
@@ -256,7 +248,7 @@ class Dashboard extends StatelessWidget {
                                 ),
                                 Text(
                                   "Total expenses",
-                                  style: TextStyle(color: Colors.white54),
+                                  style: TextStyle(color: Colors.white60),
                                 ),
                               ],
                             ),
@@ -282,7 +274,7 @@ class Dashboard extends StatelessWidget {
                       height: 130,
                       width: 170,
                       decoration: BoxDecoration(
-                        color: Colors.white24,
+                        color: Colors.black26,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Padding(
@@ -309,7 +301,7 @@ class Dashboard extends StatelessWidget {
                               "Shopping",
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Colors.white54,
+                                color: Colors.blueGrey,
                               ),
                             ),
                           ],
@@ -327,14 +319,16 @@ class Dashboard extends StatelessWidget {
                 children: [
                   Button1(
                     name: "Add Expense",
-                    color: Colors.greenAccent,
-                    onPressed: () {},
+                    color: Colors.blueAccent,
+                    colorAll: Colors.blueGrey,
+                    onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>Addexpense())),
                   ),
                   SizedBox(width: 5),
                   Button1(
                     name: "Add Income",
-                    color: Colors.redAccent,
-                    onPressed: () {},
+                    color: Colors.greenAccent,
+                    colorAll: Colors.grey,
+                    onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>Addincome())),
                   ),
                 ],
               ),
@@ -353,7 +347,6 @@ class Dashboard extends StatelessWidget {
                 Text("Today:  ", style: TextStyle(fontSize: 18)),
                 Text(
                   "${DateTime.now().month.toString()}, ${DateTime.now().day.toString()}",
-                  style: TextStyle(color: Colors.white54),
                 ),
               ],
             ),
@@ -365,7 +358,7 @@ class Dashboard extends StatelessWidget {
                     height: 70,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white24,
+                      color: Colors.black12,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Padding(
@@ -393,7 +386,7 @@ class Dashboard extends StatelessWidget {
                               Text("Shopping", style: TextStyle(fontSize: 18)),
                               Text(
                                 "Aug 15th, 2024",
-                                style: TextStyle(color: Colors.white54),
+                                style: TextStyle(color: Colors.blueGrey),
                               ),
                             ],
                           ),
