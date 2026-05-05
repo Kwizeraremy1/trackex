@@ -102,11 +102,17 @@ class Categoriescard extends StatelessWidget {
                     ],
                   ),
                   Spacer(),
-                  CircularProgressIndicator(
-                    value: percentage / 100,
-                    strokeWidth: 6,
-                    backgroundColor: Colors.white24,
-                    valueColor: AlwaysStoppedAnimation<Color>(Iconcolor),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                    CircularProgressIndicator(
+                      value: percentage / 100,
+                      strokeWidth: 6,
+                      backgroundColor: Colors.white24,
+                      valueColor: AlwaysStoppedAnimation<Color>(Iconcolor),
+                    ),
+                      Text("$percentage%", style: TextStyle(fontSize: 10),)
+                    ]
                   ),
                 ],
               ),

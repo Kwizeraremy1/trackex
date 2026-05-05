@@ -316,26 +316,23 @@ class Dashboard extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Button1(
                     name: "Add Expense",
                     color: Colors.blueAccent,
-                    colorAll: const Color.fromARGB(80, 68, 137, 255),
+                    colorAll: const Color.fromARGB(30, 68, 137, 255),
                     onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>Addexpense())),
                   ),
-                  SizedBox(width: 5),
                   Button1(
                     name: "Add Income",
                     color: Colors.greenAccent,
-                    colorAll: const Color.fromARGB(80, 105, 240, 175),
+                    colorAll: const Color.fromARGB(30, 105, 240, 175),
                     onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>Addincome())),
                   ),
                 ],
               ),
-            ),
             SizedBox(height: 10),
             Row(
               children: [

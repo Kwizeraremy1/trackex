@@ -72,7 +72,7 @@ class _StatisticsState extends State<Statistics> {
                             itemCount: 8,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisExtent: 150,
+                                  mainAxisExtent: 160,
                                   crossAxisCount: 2,
                                 ),
                             itemBuilder: (BuildContext, index) {

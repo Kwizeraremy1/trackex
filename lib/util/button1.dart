@@ -19,6 +19,7 @@ class Button1 extends StatelessWidget {
       onTap: onPressed,
       borderRadius: BorderRadius.circular(10),
       child: Container(
+        width: MediaQuery.of(context).size.width * 0.4,
         decoration: BoxDecoration(
           color: colorAll,
           borderRadius: BorderRadius.circular(20),
@@ -26,8 +27,8 @@ class Button1 extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.only(
-            right: 30,
-            left: 30,
+            // right: 30,
+            // left: 30,
             top: 15,
             bottom: 15,
           ),
