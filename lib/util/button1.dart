@@ -19,7 +19,7 @@ class Button1 extends StatelessWidget {
       onTap: onPressed,
       borderRadius: BorderRadius.circular(10),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.4,
+        width: MediaQuery.of(context).size.width * 0.41,
         decoration: BoxDecoration(
           color: colorAll,
           borderRadius: BorderRadius.circular(20),
@@ -29,18 +29,20 @@ class Button1 extends StatelessWidget {
           padding: const EdgeInsets.only(
             // right: 30,
             // left: 30,
-            top: 15,
-            bottom: 15,
+            top: 10,
+            bottom: 10,
           ),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Icon(Icons.add, color: color, size: 18),
-              ),
-              SizedBox(width: 5),
-              Text(name, style: TextStyle(fontSize: 18, color: color, fontWeight: FontWeight.bold)),
-            ],
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Icon(Icons.add, color: color, size: 18),
+                ),
+                Text(name, style: TextStyle(fontSize: 18, color: color, fontWeight: FontWeight.bold)),
+              ],
+            ),
           ),
         ),
       ),
