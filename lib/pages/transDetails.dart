@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:trackex/util/colorsIcons.dart';
 
 class TransactionDetailPage extends StatelessWidget {
   final Map<String, dynamic> transaction;
@@ -11,9 +12,7 @@ class TransactionDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isExpense = transaction['way'] == 'expense';
     final Color accentColor = isExpense ? Colors.redAccent : Colors.greenAccent;
-    final IconData categoryIcon = isExpense
-        ? Icons.shopping_cart
-        : Icons.attach_money;
+    final IconData categoryIcon = CategoryIcons.icons[transaction['category']['name']]!;
     final String category = transaction['category']?['name'] ?? 'Uncategorized';
     final String amount = 'Rwf ${transaction['amount']?.toString() ?? '0'}';
     final String date = DateFormat('dd MMM yyyy').format(

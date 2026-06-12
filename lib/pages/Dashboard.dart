@@ -3,10 +3,12 @@ import 'package:trackex/Auth/authFunction.dart';
 import 'package:trackex/database/databaseData.dart';
 import 'package:trackex/pages/AddIncome.dart';
 import 'package:trackex/pages/addExpense.dart';
+import 'package:trackex/pages/catHistory.dart';
 import 'package:trackex/pages/history.dart';
 import 'package:trackex/pages/profile.dart';
 import 'package:trackex/util/button1.dart';
 import 'package:intl/intl.dart';
+import 'package:trackex/util/colorsIcons.dart';
 import 'package:trackex/util/historyCard.dart';
 
 class Dashboard extends StatefulWidget {
@@ -178,11 +180,14 @@ class _DashboardState extends State<Dashboard> {
                         style: TextStyle(fontSize: 18, color: Colors.white),
                       ),
                       SizedBox(height: 5),
-                      Text("Rwf ${pane['totalBalance']}",
+                      Text(
+                        "Rwf ${pane['totalBalance']}",
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
-                          color:pane['totalBalance'] < 0 ?Colors.red: Colors.white,
+                          color: pane['totalBalance'] < 0
+                              ? Colors.red
+                              : Colors.white,
                         ),
                       ),
                       SizedBox(height: 5),
@@ -205,7 +210,8 @@ class _DashboardState extends State<Dashboard> {
                               size: 16,
                             ),
                             SizedBox(width: 5),
-                            Text("Rwf 200",
+                            Text(
+                              "Rwf 200",
                               style: TextStyle(color: Colors.white),
                             ),
                           ],
@@ -243,7 +249,8 @@ class _DashboardState extends State<Dashboard> {
                               SizedBox(width: 10),
                               Column(
                                 children: [
-                                  Text("Rwf ${pane['incomeValue']}",
+                                  Text(
+                                    "Rwf ${pane['incomeValue']}",
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -281,7 +288,8 @@ class _DashboardState extends State<Dashboard> {
                               SizedBox(width: 10),
                               Column(
                                 children: [
-                                  Text("Rwf ${pane['expenseValue']}",
+                                  Text(
+                                    "Rwf ${pane['expenseValue']}",
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -306,53 +314,68 @@ class _DashboardState extends State<Dashboard> {
             SizedBox(
               height: 120,
               width: double.infinity,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      height: 100,
-                      width: 170,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(45, 28, 60, 115),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          width: 0.5,
-                          color: const Color.fromARGB(255, 0, 31, 84),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(
-                              Icons.shopping_cart,
-                              color: Colors.blueGrey,
-                              size: 25,
+              child: FutureBuilder(
+                future: db.getCategoryUsed(),
+                builder: (context, Snapshot) {
+                  if (Snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  final cat = Snapshot.data;
+                  return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: cat!.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: InkWell(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Cathistory(name: cat[index]['cat'],id: cat[index]['id'] ,),
                             ),
-                            SizedBox(height: 10),
-                            Text(
-                              "Rwf 150.00",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                          ),
+                          child: Container(
+                            height: 100,
+                            width: 170,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(45, 28, 60, 115),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                width: 0.5,
+                                color: const Color.fromARGB(255, 0, 31, 84),
                               ),
                             ),
-                            Text(
-                              "Shopping",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.greenAccent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Icon(
+                                    CategoryIcons.icons[cat[index]['cat']],
+                                    color: Colors.blueGrey,
+                                    size: 25,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    cat[index]['cat'],
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "----->",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
                 },
               ),
@@ -393,8 +416,15 @@ class _DashboardState extends State<Dashboard> {
                 Text("Recent Transactions", style: TextStyle(fontSize: 13)),
                 Spacer(),
                 InkWell(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>History())),
-                  child: Text("See all", style: TextStyle(color: Colors.blueAccent))),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => History()),
+                  ),
+                  child: Text(
+                    "See all",
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 10),
@@ -444,6 +474,8 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ),
                       amount: transactions[index]['amount'].toString(),
+                      icon: CategoryIcons
+                          .icons[transactions[index]['category']['name']],
                     );
                   },
                   itemCount: transactions!.length <= 3

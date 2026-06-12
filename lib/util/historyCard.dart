@@ -4,13 +4,15 @@ class Historycard extends StatelessWidget {
   final title;
   final date;
   final amount;
+  final icon;
   final VoidCallback? onTap;
   const Historycard({
     super.key,
     required this.title,
     required this.date,
+    required this.icon,
     required this.amount,
-    this.onTap
+    this.onTap,
   });
 
   @override
@@ -53,7 +55,9 @@ class Historycard extends StatelessWidget {
                     ),
                   ),
                   child: Icon(
-                    title == 'income' ? Icons.attach_money : Icons.shopping_cart,
+                    title == 'income'
+                        ? Icons.attach_money
+                        : icon,
                     color: Colors.white,
                     size: 30,
                   ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:trackex/database/databaseData.dart';
 import 'package:trackex/pages/transDetails.dart';
+import 'package:trackex/util/colorsIcons.dart';
 import 'package:trackex/util/historyCard.dart';
 
 class All extends StatefulWidget {
@@ -34,6 +35,7 @@ class _AllState extends State<All> {
                   DateTime.tryParse(history['created_at']) ?? DateTime.now(),
                 ),
                 amount: history['amount'].toString(),
+                icon:  CategoryIcons.icons[history['category']['name']],
                 onTap: () async {
                   await Navigator.push(
                     context,

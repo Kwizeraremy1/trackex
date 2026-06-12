@@ -132,10 +132,35 @@ class Databasedata {
 
     final highestValue = allValues.reduce((a, b) => a > b ? a : b);
 
-    print('=========================$expenses==========================');
-    print('=========================$income==========================');
-    print('=========================$highestValue==========================');
-
     return {"expenses": expenses, "income": income, "highest": highestValue};
+  }
+
+  Future<List<Map<String, dynamic>>> getCategoryUsed() async {
+    final response = await supabase
+        .from('transactions')
+        .select('id, category(name)')
+        .neq('way', 'income')
+        .eq("profileId", userId);
+    final Map<String, int> categoriesHere = {};
+
+    for (var id in response) {
+      final category = id['category']['name'];
+      final value = id['id'];
+      categoriesHere[category] = value as int;
+    }
+
+    return categoriesHere.entries.map((e) {
+      return {'cat': e.key, 'id': e.value};
+    }).toList();
+  }
+
+  Future<List<Map<String, dynamic>>> getCatTransaction(cat) async {
+    final transactions = await supabase
+        .from('transactions')
+        .select('*, category(*)')
+        .eq('profileId', userId)
+        .eq('id', cat)
+        .order('created_at', ascending: false);
+    return transactions;
   }
 }
