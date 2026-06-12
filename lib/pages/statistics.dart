@@ -1,7 +1,10 @@
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:trackex/database/databaseData.dart';
 import 'package:trackex/util/categoriesCard.dart';
+import 'package:trackex/util/colorsIcons.dart';
 
 class Statistics extends StatefulWidget {
   const Statistics({super.key});
@@ -13,227 +16,277 @@ class Statistics extends StatefulWidget {
 class _StatisticsState extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
+    final db = Databasedata();
     return DefaultTabController(
       length: 2,
-      child: Column(
-        children: [
-          AppBar(title: Text("Statistics"), centerTitle: true),
-          TabBar(
-            labelColor: const Color.fromARGB(255, 28, 60, 115),
-            dividerColor: Colors.transparent,
-            labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            indicatorColor: Colors.transparent,
-            tabs: [
-              Tab(text: "Categories"),
-              Tab(text: "Monthly Spending"),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
-              children: [
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        BudgetRingWidget(
-                          amount: 1250.75,
-                          label: "August 2025",
-                          progress: 0.75,
-                          ringSegments: [
-                            RingSegment(
-                              color: Colors.redAccent,
-                              sweepFraction: 0.5,
-                            ),
-                            RingSegment(
-                              color: Colors.orangeAccent,
-                              sweepFraction: 0.3,
-                            ),
-                            RingSegment(
-                              color: Colors.blueAccent,
-                              sweepFraction: 0.2,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Text(
-                              "Top Spending Categories",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Expanded(
-                          child: GridView.builder(
-                            itemCount: 8,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisExtent: 160,
-                                  crossAxisCount: 2,
-                                ),
-                            itemBuilder: (BuildContext, index) {
-                              return Categoriescard(
-                                Category: "House",
-                                transactions: "78",
-                                icon2: Icons.trending_down,
-                                icon: Icons.house_rounded,
-                                amount: 1200.00,
-                                percentage: 32,
-                                Percentagecolor: Colors.red,
-                                Iconcolor: const Color.fromARGB(255, 0, 117, 213),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 20, left: 20),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(45, 28, 60, 115),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Monthly Spending Chart",
-                                  style: TextStyle(
-                                    color: Colors.white54,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  "Rwf 1,200.00",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 50,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                            
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.trending_up,
-                                      color: Colors.greenAccent,
-                                      size: 20,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      "5.00% from last month",
-                                      style: TextStyle(
-                                        color: Colors.greenAccent,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 50),
-                                SizedBox(
-                                  height: 200, // ✅ fixed height for chart
-                                  child: LineChart(
-                                    LineChartData(
-                                      minX: 0,
-                                      maxX: 12,
-                                      minY: 0,
-                                      maxY: 3000,
-                                      gridData: FlGridData(
-                                        show: true,
-                                        drawVerticalLine: false,
-                                      ),
-
-                                      borderData: FlBorderData(show: false),
-                                      titlesData: FlTitlesData(
-                                        rightTitles: AxisTitles(
-                                          sideTitles: SideTitles(
-                                            showTitles: false
-                                          )
-                                        ),
-                                        topTitles: AxisTitles(
-                                          sideTitles: SideTitles(
-                                            showTitles: false
-                                          )
-                                        ),
-                                        show: true),
-                                      lineBarsData: [
-                                        LineChartBarData(
-                                          spots: [
-                                            FlSpot(0, 200),
-                                            FlSpot(1, 950),
-                                            FlSpot(2, 700),
-                                            FlSpot(3, 1100),
-                                            FlSpot(4, 1900),
-                                            FlSpot(5, 200),
-                                            FlSpot(6, 950),
-                                            FlSpot(7, 700),
-                                            FlSpot(8, 1100),
-                                            FlSpot(9, 1900),
-                                            FlSpot(10, 1100),
-                                            FlSpot(11, 1900),
-                                            FlSpot(
-                                              12,
-                                              1900,
-                                            ),
-                                          ],
-                                          isCurved: false,
-                                          color: Colors.blueAccent,
-                                          barWidth: 2,
-                                          dotData: FlDotData(show: false),
-                                        ),
-                                        LineChartBarData(
-                                          spots: [
-                                            FlSpot(0, 700),
-                                            FlSpot(1, 850),
-                                            FlSpot(2, 900),
-                                            FlSpot(3, 1500),
-                                            FlSpot(4, 1100),
-                                            FlSpot(5, 700),
-                                            FlSpot(6, 850),
-                                            FlSpot(7, 900),
-                                            FlSpot(8, 1500),
-                                            FlSpot(9, 1100),
-                                            FlSpot(10, 1500),
-                                            FlSpot(11, 1100),
-                                            FlSpot(
-                                              12,
-                                              1200,
-                                            ),
-                                          ],
-                                          isCurved: false,
-                                          color: Colors.redAccent,
-                                          barWidth: 2,
-                                          dotData: FlDotData(show: false),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            AppBar(title: Text("Statistics"), centerTitle: true),
+            TabBar(
+              labelColor: const Color.fromARGB(255, 28, 60, 115),
+              dividerColor: Colors.transparent,
+              labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              indicatorColor: Colors.transparent,
+              tabs: [
+                Tab(text: "Categories"),
+                Tab(text: "Monthly Spending"),
               ],
             ),
-          ),
-        ],
+            Expanded(
+              child: TabBarView(
+                children: [
+                  Column(
+                    children: [
+                      FutureBuilder(
+                        future: db.getCategoryPercentage(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          final result = snapshot.data;
+                          return BudgetRingWidget(
+                            amount: result![0]['total'],
+                            label: DateFormat(
+                              'dd MMM yyyy',
+                            ).format(DateTime.now()),
+                            progress: 0.75,
+                            ringSegments: result.map((item) {
+                              return RingSegment(
+                                color: CategoryColors.get(item['category']),
+                                sweepFraction:
+                                    (item['percentage'] as num) / 100,
+                              );
+                            }).toList(),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Text(
+                            "Top Spending Categories",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: const Color.fromARGB(59, 255, 255, 255),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: FutureBuilder(
+                          future: db.getCategoryPercentage(),
+                          builder: (context, Snapshot) {
+                            if (Snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                            final data = Snapshot.data;
+                            return GridView.builder(
+                              itemCount: data!.length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    mainAxisExtent: 160,
+                                    crossAxisCount: 2,
+                                  ),
+                              itemBuilder: (BuildContext, index) {
+                                final cat = data[index];
+                                return Categoriescard(
+                                  Category: cat['category'],
+                                  transactions: cat['count'].toString(),
+                                  icon2: Icons.trending_down,
+                                  icon: Icons.house_rounded,
+                                  amount: cat['amount'],
+                                  percentage: cat['percentage'],
+                                  Percentagecolor: Colors.red,
+                                  Iconcolor: CategoryColors.get(
+                                    cat['category'],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20, left: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(45, 28, 60, 115),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Monthly Spending Chart",
+                                    style: TextStyle(
+                                      color: Colors.white54,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  FutureBuilder(
+                                    future: db.getCategoryPercentage(),
+                                    builder: (context, Snapshot) {
+                                      if (Snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Text(
+                                          "Rwf 0",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 50,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        );
+                                      }
+                                      final amount = Snapshot.data;
+                                      return Text(
+                                        "Rwf ${amount![0]['total']}",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 50,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                                    },
+                                  ),
+
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.trending_up,
+                                        color: Colors.greenAccent,
+                                        size: 20,
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        "5.00% from last month",
+                                        style: TextStyle(
+                                          color: Colors.greenAccent,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 50),
+                                  SizedBox(
+                                    height: 200, // ✅ fixed height for chart
+                                    child: FutureBuilder(
+                                      future: db.getMonthlyExpenses(),
+                                      builder: (context, Snapshot) {
+                                        if (Snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                        final data = Snapshot.data;
+                                        return LineChart(
+                                          LineChartData(
+                                            minX: 0,
+                                            maxX: 12,
+                                            minY: 0,
+                                            maxY: 18000,
+                                            gridData: FlGridData(
+                                              show: true,
+                                              drawVerticalLine: false,
+                                            ),
+
+                                            borderData: FlBorderData(
+                                              show: false,
+                                            ),
+                                            titlesData: FlTitlesData(
+                                              rightTitles: AxisTitles(
+                                                sideTitles: SideTitles(
+                                                  showTitles: false,
+                                                ),
+                                              ),
+                                              topTitles: AxisTitles(
+                                                sideTitles: SideTitles(
+                                                  showTitles: false,
+                                                ),
+                                              ),
+                                              show: true,
+                                            ),
+                                            lineBarsData: [
+                                              LineChartBarData(
+                                                spots: [
+                                                  FlSpot(0, 200),
+                                                  FlSpot(1, 950),
+                                                  FlSpot(2, 700),
+                                                  FlSpot(3, 1100),
+                                                  FlSpot(4, 1900),
+                                                  FlSpot(5, 200),
+                                                  FlSpot(6, 950),
+                                                  FlSpot(7, 700),
+                                                  FlSpot(8, 1100),
+                                                  FlSpot(9, 1900),
+                                                  FlSpot(10, 1100),
+                                                  FlSpot(11, 1900),
+                                                  FlSpot(12, 1900),
+                                                ],
+                                                isCurved: false,
+                                                color: Colors.blueAccent,
+                                                barWidth: 2,
+                                                dotData: FlDotData(show: false),
+                                              ),
+                                              LineChartBarData(
+                                                spots: data!.map((e) {
+                                                  return FlSpot(
+                                                    (e['month'] as num).toDouble(),
+                                                    (e['amount'] as num).toDouble(),
+                                                  );
+                                                }).toList(),
+
+                                                // [
+                                                //   FlSpot(0, 700),
+                                                //   FlSpot(1, 850),
+                                                //   FlSpot(2, 900),
+                                                //   FlSpot(3, 1500),
+                                                //   FlSpot(4, 1100),
+                                                //   FlSpot(5, 700),
+                                                //   FlSpot(6, 850),
+                                                //   FlSpot(7, 900),
+                                                //   FlSpot(8, 1500),
+                                                //   FlSpot(9, 1100),
+                                                //   FlSpot(10, 1500),
+                                                //   FlSpot(11, 1100),
+                                                //   FlSpot(12, 1200),
+                                                // ]
+                                                isCurved: false,
+                                                color: Colors.redAccent,
+                                                barWidth: 2,
+                                                dotData: FlDotData(show: false),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -309,11 +362,20 @@ class BudgetRingWidget extends StatelessWidget {
 
               /// Amount
               Text(
-                '\$${_formatAmount(amount)}',
+                _formatAmount(amount),
                 style: const TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                   letterSpacing: -0.5,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                "Rwf",
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
                 ),
               ),
 
