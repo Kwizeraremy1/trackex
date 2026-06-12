@@ -41,6 +41,9 @@ class MyApp extends StatelessWidget {
     labelMedium: TextStyle(color: Colors.white),
     labelSmall: TextStyle(color: Colors.white),
   ),
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: Colors.white,
+  ),
       ),
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(),

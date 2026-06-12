@@ -95,20 +95,22 @@ class _AddexpenseState extends State<Addexpense> {
           });
         } else {
           total = (total ?? 0) + (finalAmount ?? 0);
-          await supabase.from('expense').insert({
-            'profileId': userId,
-            'amount': total,
-          });
+          await supabase
+              .from('expense')
+              .update({'amount': total})
+              .eq('profileId', userId);
+
           await supabase.from('transactions').insert({
             'profileId': userId,
-            'amount': userId,
-            'Category': int.tryParse(cat),
+            'amount': finalAmount,
+            'CategoryId': int.tryParse(cat),
             'type': form,
             'to': to,
             'note': Add,
           });
         }
         Navigator.of(context).pop();
+        Navigator.pop(context);
       } catch (e) {
         ScaffoldMessenger.of(
           context,
