@@ -92,35 +92,50 @@ class Databasedata {
     }).toList();
   }
 
-  Future<List<Map<String, dynamic>>> getMonthlyExpenses() async {
+  Future<Map<String, dynamic>> getMonthlyTransactions() async {
+    final year = DateTime.now().year;
+
     final response = await supabase
         .from('transactions')
-        .select('amount, created_at')
-        .eq('way', 'expense')
-        .eq("profileId", userId);
+        .select('amount, created_at, way')
+        .eq("profileId", userId)
+        .gte('created_at', '$year-01-01')
+        .lt('created_at', '${year + 1}-01-01');
 
-    Map<String, double> monthlyTotals = {};
+    Map<int, double> monthlyExpenses = {for (int i = 1; i <= 12; i++) i: 0};
+
+    Map<int, double> monthlyIncome = {for (int i = 1; i <= 12; i++) i: 0};
 
     for (var tx in response) {
       final amount = (tx['amount'] as num).toDouble();
       final date = DateTime.parse(tx['created_at']);
 
-      final monthKey = "${date.year}-${date.month.toString().padLeft(2, '0')}";
+      final month = date.month;
 
-      monthlyTotals[monthKey] = (monthlyTotals[monthKey] ?? 0) + amount;
+      if (tx['way'] == 'expense') {
+        monthlyExpenses[month] = (monthlyExpenses[month] ?? 0) + amount;
+      } else if (tx['way'] == 'income') {
+        monthlyIncome[month] = (monthlyIncome[month] ?? 0) + amount;
+      }
     }
 
-    final result = monthlyTotals.entries.map((e) {
-      final parts = e.key.split('-');
-      final month = int.parse(parts[1]);
-
-      return {
-  'month': int.parse(month.toString().padLeft(2, '0')),
-  "amount": e.value,
-};
+    final expenses = monthlyExpenses.entries.map((e) {
+      return {"month": e.key, "amount": e.value};
     }).toList();
 
-    return result;
+    final income = monthlyIncome.entries.map((e) {
+      return {"month": e.key, "amount": e.value};
+    }).toList();
+
+    // Compare both income and expense values
+    final allValues = [...monthlyExpenses.values, ...monthlyIncome.values];
+
+    final highestValue = allValues.reduce((a, b) => a > b ? a : b);
+
+    print('=========================$expenses==========================');
+    print('=========================$income==========================');
+    print('=========================$highestValue==========================');
+
+    return {"expenses": expenses, "income": income, "highest": highestValue};
   }
-  
 }
