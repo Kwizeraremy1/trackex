@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trackex/pages/Dashboard.dart';
+import 'package:trackex/pages/history.dart';
 import 'package:trackex/pages/statistics.dart';
 import 'package:trackex/util/navBar.dart';
 
@@ -11,7 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _pages = [Dashboard(), Statistics()];
+  final _pages = [Dashboard(), Statistics(), History()];
 
   int _selectedIndex = 0;
 

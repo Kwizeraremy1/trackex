@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:trackex/Auth/authFunction.dart';
 import 'package:trackex/pages/login.dart';
 import 'package:trackex/util/button2.dart';
@@ -20,6 +21,11 @@ class _SignupState extends State<Signup> {
   final auth = Authfunction();
 
   void SignUp() async {
+    showDialog(
+      context: context,
+      builder: (context) =>
+          AlertDialog(content: Center(child: CircularProgressIndicator())),
+    );
     final names = namesController.text;
     final email = emailController.text;
     final password = passwordController.text;
@@ -45,31 +51,15 @@ class _SignupState extends State<Signup> {
       return;
     } else {
       try {
-        isLoading = true;
         await auth.SignUp(email, password);
+        await Supabase.instance.client.from('profiles').update({
+          'names': namesController.text,
+        });
         emailController.clear();
         namesController.clear();
         passwordController.clear();
         confirmPasswordController.clear();
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            backgroundColor: const Color.fromARGB(255, 46, 15, 100),
-            title: Text("Confirm Email"),
-            content: Text(
-              "Go to email and click confirm, then come back and login",
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                  Navigator.of(context).pop(); // Go back to the previous screen
-                },
-                child: Text("OK"),
-              ),
-            ],
-          ),
-        );
+        Navigator.pop(context);
       } catch (e) {
         isLoading = false;
         if (mounted) {
@@ -93,7 +83,11 @@ class _SignupState extends State<Signup> {
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
         decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage("assets/images/background.png"),fit: BoxFit.cover, opacity: 0.7)            
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.png"),
+            fit: BoxFit.cover,
+            opacity: 0.7,
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -102,12 +96,18 @@ class _SignupState extends State<Signup> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Sign up", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white)),
+                Text(
+                  "Sign up",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
                 SizedBox(height: 30),
                 TextField(
                   controller: namesController,
-                  style: TextStyle(
-                    color: Colors.white),
+                  style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: "Names",
                     border: OutlineInputBorder(
@@ -129,6 +129,7 @@ class _SignupState extends State<Signup> {
                 ),
                 SizedBox(height: 10),
                 TextField(
+                  obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   controller: passwordController,
                   style: TextStyle(color: Colors.white),
@@ -141,6 +142,7 @@ class _SignupState extends State<Signup> {
                 ),
                 SizedBox(height: 10),
                 TextField(
+                  obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   controller: confirmPasswordController,
                   style: TextStyle(color: Colors.white),
@@ -172,7 +174,10 @@ class _SignupState extends State<Signup> {
                       ),
                       child: Text(
                         "Login",
-                        style: TextStyle(fontSize: 16, color: Colors.blueAccent),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.blueAccent,
+                        ),
                       ),
                     ),
                   ],

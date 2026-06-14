@@ -14,6 +14,7 @@ class FloatingNavBar extends StatelessWidget {
         children: [
           _NavButton(icon: Icons.home_rounded,   index: 0, currentIndex: currentIndex, onTap: onTap),
           _NavButton(icon: Icons.bar_chart_rounded, index: 1, currentIndex: currentIndex, onTap: onTap),
+          _NavButton(icon: Icons.history_rounded, index: 2, currentIndex: currentIndex, onTap: onTap)
         ],
       ),
     );

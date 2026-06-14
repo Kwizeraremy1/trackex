@@ -44,11 +44,46 @@ class _StatisticsState extends State<Statistics> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
+                            return BudgetRingWidget(
+                              amount: 0,
+                              label: DateFormat(
+                                'dd MMM yyyy',
+                              ).format(DateTime.now()),
+                              progress: 0.75,
+                              ringSegments: [
+                                RingSegment(
+                                  color: Colors.white,
+                                  sweepFraction: 0.5,
+                                ),
+                                RingSegment(
+                                  color: Colors.blue,
+                                  sweepFraction: 0.5,
+                                ),
+                              ],
+                            );
+                          }
+                          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return BudgetRingWidget(
+                              amount: 0,
+                              label: DateFormat(
+                                'dd MMM yyyy',
+                              ).format(DateTime.now()),
+                              progress: 0.75,
+                              ringSegments: [
+                                RingSegment(
+                                  color: Colors.white,
+                                  sweepFraction: 0.5,
+                                ),
+                                RingSegment(
+                                  color: Colors.blue,
+                                  sweepFraction: 0.5,
+                                ),
+                              ],
+                            );
                           }
                           final result = snapshot.data;
                           return BudgetRingWidget(
-                            amount: result![0]['total'],
+                            amount: result![0]['total'] ?? 0,
                             label: DateFormat(
                               'dd MMM yyyy',
                             ).format(DateTime.now()),
@@ -83,6 +118,11 @@ class _StatisticsState extends State<Statistics> {
                                 ConnectionState.waiting) {
                               return Center(child: CircularProgressIndicator());
                             }
+                            if (!Snapshot.hasData || Snapshot.data!.isEmpty) {
+                              return Center(
+                                child: Text("No available transaction"),
+                              );
+                            }
                             final data = Snapshot.data;
                             return GridView.builder(
                               itemCount: data!.length,
@@ -94,15 +134,15 @@ class _StatisticsState extends State<Statistics> {
                               itemBuilder: (BuildContext, index) {
                                 final cat = data[index];
                                 return Categoriescard(
-                                  Category: cat['category'],
+                                  Category: cat['category'] ?? "null",
                                   transactions: cat['count'].toString(),
                                   icon2: Icons.trending_down,
                                   icon: Icons.house_rounded,
-                                  amount: cat['amount'],
+                                  amount: cat['amount'] ?? 0,
                                   percentage: cat['percentage'],
                                   Percentagecolor: Colors.red,
                                   Iconcolor: CategoryColors.get(
-                                    cat['category'],
+                                    cat['category'] ?? Colors.blue,
                                   ),
                                 );
                               },
@@ -148,9 +188,21 @@ class _StatisticsState extends State<Statistics> {
                                           ),
                                         );
                                       }
+                                      if (Snapshot.hasError ||
+                                          !Snapshot.hasData ||
+                                          Snapshot.data!.isEmpty) {
+                                        return Text(
+                                        "Rwf 0",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 50,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                                      }
                                       final amount = Snapshot.data;
                                       return Text(
-                                        "Rwf ${amount![0]['total']}",
+                                        "Rwf ${amount![0]['total'] ?? 0}",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 50,
@@ -180,134 +232,175 @@ class _StatisticsState extends State<Statistics> {
                                   ),
                                   SizedBox(height: 50),
                                   SizedBox(
-                                    height: 200, // ✅ fixed height for chart
+                                    height: 200,
                                     child: FutureBuilder(
                                       future: db.getMonthlyTransactions(),
                                       builder: (context, Snapshot) {
                                         if (Snapshot.connectionState ==
                                             ConnectionState.waiting) {
                                           return LineChart(
-                                          LineChartData(
-                                            minX: 0,
-                                            maxX: 12,
-                                            minY: 0,
-                                            maxY: 10000,
-                                            gridData: FlGridData(
-                                              show: true,
-                                              drawVerticalLine: false,
-                                            ),
+                                            LineChartData(
+                                              minX: 0,
+                                              maxX: 12,
+                                              minY: 0,
+                                              maxY: 10000,
+                                              gridData: FlGridData(
+                                                show: true,
+                                                drawVerticalLine: false,
+                                              ),
 
-                                            borderData: FlBorderData(
-                                              show: false,
-                                            ),
-                                            titlesData: FlTitlesData(
-                                              rightTitles: AxisTitles(
-                                                sideTitles: SideTitles(
-                                                  showTitles: false,
+                                              borderData: FlBorderData(
+                                                show: false,
+                                              ),
+                                              titlesData: FlTitlesData(
+                                                rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                    showTitles: false,
+                                                  ),
                                                 ),
-                                              ),
-                                              topTitles: AxisTitles(
-                                                sideTitles: SideTitles(
-                                                  showTitles: false,
+                                                topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                    showTitles: false,
+                                                  ),
                                                 ),
+                                                show: true,
                                               ),
-                                              show: true,
+                                              lineBarsData: [
+                                                LineChartBarData(
+                                                  isCurved: false,
+                                                  color: Colors.blueAccent,
+                                                  barWidth: 2,
+                                                  dotData: FlDotData(
+                                                    show: false,
+                                                  ),
+                                                ),
+                                                LineChartBarData(
+                                                  isCurved: false,
+                                                  color: Colors.redAccent,
+                                                  barWidth: 2,
+                                                  dotData: FlDotData(
+                                                    show: false,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            lineBarsData: [
-                                              LineChartBarData(
-                                                isCurved: false,
-                                                color: Colors.blueAccent,
-                                                barWidth: 2,
-                                                dotData: FlDotData(show: false),
-                                              ),
-                                              LineChartBarData(
-                                                isCurved: false,
-                                                color: Colors.redAccent,
-                                                barWidth: 2,
-                                                dotData: FlDotData(show: false),
-                                              ),
-                                            ],
-                                          ),
-                                        );
+                                          );
                                         }
                                         final data = Snapshot.data;
 
-                                        return LineChart(
-                                          LineChartData(
-                                            minX: 0,
-                                            maxX: 12,
-                                            minY: 0,
-                                            maxY: data!['highest'],
-                                            gridData: FlGridData(
-                                              show: true,
-                                              drawVerticalLine: false,
-                                            ),
+                                          return LineChart(
+                                            LineChartData(
+                                              minX: 0,
+                                              maxX: 12,
+                                              minY: 0,
+                                              maxY: data!['highest'],
+                                              gridData: FlGridData(
+                                                show: true,
+                                                drawVerticalLine: false,
+                                              ),
 
-                                            borderData: FlBorderData(
-                                              show: false,
-                                            ),
-                                            titlesData: FlTitlesData(
-                                              rightTitles: AxisTitles(
-                                                sideTitles: SideTitles(
-                                                  showTitles: false,
+                                              borderData: FlBorderData(
+                                                show: false,
+                                              ),
+                                              titlesData: FlTitlesData(
+                                                rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                    showTitles: false,
+                                                  ),
                                                 ),
-                                              ),
-                                              topTitles: AxisTitles(
-                                                sideTitles: SideTitles(
-                                                  showTitles: false,
+                                                topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                    showTitles: false,
+                                                  ),
                                                 ),
+                                                show: true,
                                               ),
-                                              show: true,
+                                              lineBarsData: [
+                                                LineChartBarData(
+                                                  spots:
+                                                      (data["expenses"] as List)
+                                                          .map(
+                                                            (e) => FlSpot(
+                                                              (e["month"] as int)
+                                                                  .toDouble(),
+                                                              (e["amount"] as num)
+                                                                  .toDouble(),
+                                                            ),
+                                                          )
+                                                          .toList(),
+                                                  isCurved: true,
+                                                  color: Colors.blueAccent,
+                                                  barWidth: 2,
+                                                  dotData: FlDotData(show: false),
+                                                ),
+                                                LineChartBarData(
+                                                  spots: (data["income"] as List)
+                                                      .map(
+                                                        (e) => FlSpot(
+                                                          (e["month"] as int)
+                                                              .toDouble(),
+                                                          (e["amount"] as num)
+                                                              .toDouble(),
+                                                        ),
+                                                      )
+                                                      .toList(),
+                                                  isCurved: true,
+                                                  color: Colors.redAccent,
+                                                  barWidth: 2,
+                                                  dotData: FlDotData(show: false),
+                                                ),
+                                              ],
                                             ),
-                                            lineBarsData: [
-                                              LineChartBarData(
-                                                spots: (data["expenses"] as List)
-                                                    .map(
-                                                      (e) => FlSpot(
-                                                        (e["month"] as int)
-                                                            .toDouble(),
-                                                        (e["amount"] as num)
-                                                            .toDouble(),
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                                    isCurved: true,
-                                                color: Colors.blueAccent,
-                                                barWidth: 2,
-                                                dotData: FlDotData(show: false),
-                                              ),
-                                              LineChartBarData(
-                                                spots: (data["income"] as List)
-                                                    .map(
-                                                      (e) => FlSpot(
-                                                        (e["month"] as int)
-                                                            .toDouble(),
-                                                        (e["amount"] as num)
-                                                            .toDouble(),
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                                    isCurved: true,
-                                                color: Colors.redAccent,
-                                                barWidth: 2,
-                                                dotData: FlDotData(show: false),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
+                                          );
+                                        },
                                     ),
                                   ),
-                          SizedBox(height: 10,),
-                          Row(children: [
-                            Container(height: 10,width: 10,decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.redAccent),),
-                            SizedBox(width: 10,),
-                            Text("Expenses",style: TextStyle(color: const Color.fromARGB(119, 255, 255, 255)),), 
-                            SizedBox(width: 20,),
-                            Container(height: 10,width: 10,decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blueAccent),),
-                            SizedBox(width: 10,),
-                            Text('Income',style: TextStyle(color: const Color.fromARGB(119, 255, 255, 255)),)
-                          ],)
+                                  SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 10,
+                                        width: 10,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.redAccent,
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        "Expenses",
+                                        style: TextStyle(
+                                          color: const Color.fromARGB(
+                                            119,
+                                            255,
+                                            255,
+                                            255,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 20),
+                                      Container(
+                                        height: 10,
+                                        width: 10,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.blueAccent,
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        'Income',
+                                        style: TextStyle(
+                                          color: const Color.fromARGB(
+                                            119,
+                                            255,
+                                            255,
+                                            255,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),

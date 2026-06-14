@@ -6,6 +6,7 @@ import 'package:trackex/pages/addExpense.dart';
 import 'package:trackex/pages/catHistory.dart';
 import 'package:trackex/pages/history.dart';
 import 'package:trackex/pages/profile.dart';
+import 'package:trackex/util/DashboardCard.dart';
 import 'package:trackex/util/button1.dart';
 import 'package:intl/intl.dart';
 import 'package:trackex/util/colorsIcons.dart';
@@ -171,141 +172,19 @@ class _DashboardState extends State<Dashboard> {
                   if (Snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   }
+
+                  if (!Snapshot.hasData || Snapshot.data == null) {
+                   return Dashboardcard(
+                    total:0,
+                    income: 0,
+                    expense:0,
+                  );
+                  }
                   final pane = Snapshot.data!;
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Total Balance",
-                        style: TextStyle(fontSize: 18, color: Colors.white),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        "Rwf ${pane['totalBalance']}",
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: pane['totalBalance'] < 0
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(100, 105, 240, 175),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            width: 0.5,
-                            color: Colors.greenAccent,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.trending_up,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            SizedBox(width: 5),
-                            Text(
-                              "Rwf 200",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 25),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: const Color.fromARGB(
-                                    70,
-                                    105,
-                                    240,
-                                    175,
-                                  ),
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 0.5,
-                                    color: Colors.greenAccent,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Icon(
-                                    Icons.arrow_downward,
-                                    color: Colors.greenAccent,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Column(
-                                children: [
-                                  Text(
-                                    "Rwf ${pane['incomeValue']}",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Total income",
-                                    style: TextStyle(color: Colors.white60),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(width: 20),
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: const Color.fromARGB(70, 255, 82, 82),
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 0.5,
-                                    color: Colors.redAccent,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Icon(
-                                    Icons.arrow_upward,
-                                    color: Colors.redAccent,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Column(
-                                children: [
-                                  Text(
-                                    "Rwf ${pane['expenseValue']}",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Total expenses",
-                                    style: TextStyle(color: Colors.white60),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                  return Dashboardcard(
+                    total: pane['totalBalance'],
+                    income: pane['incomeValue'],
+                    expense: pane['expenseValue'],
                   );
                 },
               ),
@@ -320,6 +199,9 @@ class _DashboardState extends State<Dashboard> {
                   if (Snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   }
+                  if (Snapshot.data!.isEmpty) {
+                    return Center(child: Text("No available transaction"));
+                  }
                   final cat = Snapshot.data;
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -331,7 +213,10 @@ class _DashboardState extends State<Dashboard> {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Cathistory(name: cat[index]['cat'],id: cat[index]['id'] ,),
+                              builder: (context) => Cathistory(
+                                name: cat[index]['cat'],
+                                id: cat[index]['id'],
+                              ),
                             ),
                           ),
                           child: Container(
@@ -414,17 +299,6 @@ class _DashboardState extends State<Dashboard> {
             Row(
               children: [
                 Text("Recent Transactions", style: TextStyle(fontSize: 13)),
-                Spacer(),
-                InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => History()),
-                  ),
-                  child: Text(
-                    "See all",
-                    style: TextStyle(color: Colors.blueAccent),
-                  ),
-                ),
               ],
             ),
             SizedBox(height: 10),
