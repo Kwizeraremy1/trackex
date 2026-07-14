@@ -4,7 +4,6 @@ import 'package:trackex/database/databaseData.dart';
 import 'package:trackex/pages/AddIncome.dart';
 import 'package:trackex/pages/addExpense.dart';
 import 'package:trackex/pages/catHistory.dart';
-import 'package:trackex/pages/history.dart';
 import 'package:trackex/pages/profile.dart';
 import 'package:trackex/util/DashboardCard.dart';
 import 'package:trackex/util/button1.dart';
