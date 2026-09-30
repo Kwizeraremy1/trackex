@@ -205,7 +205,7 @@ class _AddexpenseState extends State<Addexpense> {
                     }
                     final category = Snapshot.data;
                     return DropdownButtonFormField(
-                      value: selected_category,
+                      initialValue: selected_category,
                       style: TextStyle(color: Colors.white),
                       borderRadius: BorderRadius.circular(15),
                       dropdownColor: const Color.fromARGB(255, 70, 59, 131),

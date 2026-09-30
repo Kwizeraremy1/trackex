@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trackex/util/button2.dart';
 
 class Profile extends StatefulWidget {
-  Profile({super.key});
+  const Profile({super.key});
 
   @override
   State<Profile> createState() => _ProfileState();

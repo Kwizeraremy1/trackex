@@ -65,9 +65,9 @@ class TransactionDetailPage extends StatelessWidget {
                     width: 64,
                     height: 64,
                     decoration: BoxDecoration(
-                      color: accentColor.withOpacity(0.15),
+                      color: accentColor.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: accentColor.withOpacity(0.3)),
+                      border: Border.all(color: accentColor.withValues(alpha: 0.3)),
                     ),
                     child: Icon(categoryIcon, color: accentColor, size: 28),
                   ),
@@ -92,9 +92,9 @@ class TransactionDetailPage extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: accentColor.withOpacity(0.12),
+                      color: accentColor.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: accentColor.withOpacity(0.25)),
+                      border: Border.all(color: accentColor.withValues(alpha: 0.25)),
                     ),
                     child: Text(
                       isExpense ? 'Expense' : 'Income',
@@ -184,10 +184,10 @@ class TransactionDetailPage extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   decoration: BoxDecoration(
-                    color: Colors.redAccent.withOpacity(0.08),
+                    color: Colors.redAccent.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Colors.redAccent.withOpacity(0.25),
+                      color: Colors.redAccent.withValues(alpha: 0.25),
                     ),
                   ),
                   child: const Row(
@@ -309,8 +309,8 @@ class _Section extends StatelessWidget {
               ),
             ),
           ),
-          if (rows != null) ...rows!,
-          if (child != null) child!,
+          ...?rows,
+          ?child,
         ],
       ),
     );

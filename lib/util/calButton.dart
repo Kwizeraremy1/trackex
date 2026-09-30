@@ -11,7 +11,7 @@ class CalButton extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: onPressed,
-      child: Container(
+      child: SizedBox(
         height: 80,
         width: 80,
         child: Center(
