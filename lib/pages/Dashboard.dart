@@ -5,7 +5,7 @@ import 'package:trackex/pages/addIncome.dart';
 import 'package:trackex/pages/addExpense.dart';
 import 'package:trackex/pages/catHistory.dart';
 import 'package:trackex/pages/profile.dart';
-import 'package:trackex/util/DashboardCard.dart';
+import 'package:trackex/util/dashboardCard.dart';
 import 'package:trackex/util/button1.dart';
 import 'package:intl/intl.dart';
 import 'package:trackex/util/colorsIcons.dart';
@@ -167,19 +167,19 @@ class _DashboardState extends State<Dashboard> {
               ),
               child: FutureBuilder(
                 future: db.getDashPane(),
-                builder: (context, Snapshot) {
-                  if (Snapshot.connectionState == ConnectionState.waiting) {
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   }
 
-                  if (!Snapshot.hasData || Snapshot.data == null) {
+                  if (!snapshot.hasData || snapshot.data == null) {
                    return Dashboardcard(
                     total:0,
                     income: 0,
                     expense:0,
                   );
                   }
-                  final pane = Snapshot.data!;
+                  final pane = snapshot.data!;
                   return Dashboardcard(
                     total: pane['totalBalance'],
                     income: pane['incomeValue'],
@@ -194,14 +194,14 @@ class _DashboardState extends State<Dashboard> {
               width: double.infinity,
               child: FutureBuilder(
                 future: db.getCategoryUsed(),
-                builder: (context, Snapshot) {
-                  if (Snapshot.connectionState == ConnectionState.waiting) {
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   }
-                  if (Snapshot.data!.isEmpty) {
+                  if (snapshot.data!.isEmpty) {
                     return Center(child: Text("No available transaction"));
                   }
-                  final cat = Snapshot.data;
+                  final cat = snapshot.data;
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: cat!.length,

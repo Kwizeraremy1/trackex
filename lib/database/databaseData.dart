@@ -30,20 +30,28 @@ class Databasedata {
     final income = await supabase
         .from('income')
         .select('amount')
-        .eq('profileId', userId)
-        .single();
-    final incomeValue = income['amount'];
+        .eq('profileId', userId);
+    final incomeValue = income.fold<double>(
+      0,
+      (sum, item) => sum + ((item['amount'] as num?)?.toDouble() ?? 0.0),
+    );
+
     final expense = await supabase
         .from('expense')
         .select('amount')
-        .eq('profileId', userId)
-        .single();
-    final expenseValue = expense['amount'];
+        .eq('profileId', userId);
+
+    final expenseValue = expense.fold<double>(
+      0,
+      (sum, item) => sum + ((item['amount'] as num?)?.toDouble() ?? 0.0),
+    );
+
     final totalBalance = incomeValue - expenseValue;
+
     return {
-      'incomeValue': incomeValue ?? 0,
-      'expenseValue': expenseValue ?? 0,
-      'totalBalance': totalBalance ?? 0,
+      'incomeValue': incomeValue,
+      'expenseValue': expenseValue,
+      'totalBalance': totalBalance,
     };
   }
 
@@ -162,5 +170,30 @@ class Databasedata {
         .eq('id', cat)
         .order('created_at', ascending: false);
     return transactions;
+  }
+  Future<double> getMonthlyExpenditureDifference() async{
+    final date = DateTime.now();
+    final currentMonth = date.month;
+    final currentYear = date.year;
+    
+    final currentMonthExpense = await supabase
+        .from('transactions')
+        .select('amount')
+        .eq('profileId', userId)
+        .eq('way', 'expense')
+        .gte('created_at', DateTime(currentYear, currentMonth, 1).toIso8601String())
+        .lt('created_at', DateTime(currentYear, currentMonth + 1, 1).toIso8601String());
+    final previousMonthExpense = await supabase
+        .from('transactions')
+        .select('amount')
+        .eq('profileId', userId)
+        .eq('way', 'expense')
+        .gte('created_at', DateTime(currentYear, currentMonth - 1, 1).toIso8601String())
+        .lt('created_at', DateTime(currentYear, currentMonth, 1).toIso8601String());
+    final currentMonthExpenseValue = currentMonthExpense.fold<double>(0, (double sum, item) => sum + (item['amount'] ?? 0));
+    final previousMonthExpenseValue = previousMonthExpense.fold<double>(0, (double sum, item) => sum + (item['amount'] ?? 0));
+    final difference = currentMonthExpenseValue - previousMonthExpenseValue;
+      print('Current Month Expense: $currentMonthExpense');
+      return difference;
   }
 }

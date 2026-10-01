@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:trackex/database/databaseData.dart';
 
 class Dashboardcard extends StatelessWidget {
-  final total;
-  final income;
-  final expense;
+  final double total;
+  final double income;
+  final double expense;
   const Dashboardcard({super.key, required this.expense, required this.income, required this.total});
 
   @override
@@ -25,21 +26,32 @@ class Dashboardcard extends StatelessWidget {
           ),
         ),
         SizedBox(height: 5),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(100, 105, 240, 175),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(width: 0.5, color: Colors.greenAccent),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.trending_up, color: Colors.white, size: 16),
-              SizedBox(width: 5),
-              Text("Rwf 200", style: TextStyle(color: Colors.white)),
-            ],
-          ),
+        Text(
+          "Expense Compared to last month",
+          style: TextStyle(fontSize: 14, color: Colors.white60),
+        ),
+        FutureBuilder(
+          future: Databasedata().getMonthlyExpenditureDifference(),
+          builder: (context, asyncSnapshot) {
+            bool isLoading = asyncSnapshot.connectionState == ConnectionState.waiting;
+            final difference = asyncSnapshot.data ?? 0;
+            return Container(
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: isLoading ? const Color.fromARGB(99, 119, 120, 120) : difference > 0 ? const Color.fromARGB(100, 105, 240, 175) : const Color.fromARGB(100, 255, 82, 82),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(width: 0.5, color:isLoading ? const Color.fromARGB(99, 119, 120, 120) : difference > 0 ? const Color.fromARGB(100, 105, 240, 175) : const Color.fromARGB(100, 255, 82, 82)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  isLoading ? Text(".") : difference > 0 ? Icon(Icons.trending_up, color: Colors.white, size: 16) : Icon(Icons.trending_down, color: Colors.white, size: 16),
+                  SizedBox(width: 5),
+                  Text(isLoading ? "--" : "Rwf $difference", style: TextStyle(color: Colors.white)),
+                ],
+              ),
+            );
+          }
         ),
         SizedBox(height: 25),
         Row(
