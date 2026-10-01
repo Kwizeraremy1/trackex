@@ -16,8 +16,8 @@ class _AddincomeState extends State<Addincome> {
   String textToDisplay2 = '0';
   // String? selected_category;
   // String? selected_form;
-  String? selected_form_Income;
-  DateTime? Date;
+  String? selectedFormIncome;
+  DateTime? date;
   final db = Databasedata();
   void handleNumberPressIncome(String num) {
     setState(() {
@@ -45,7 +45,7 @@ class _AddincomeState extends State<Addincome> {
     });
   }
 
-  late final List ButtonsIncome = [
+  late final List buttonsIncome = [
     CalButton(
       text: "1",
       buttonColor: Colors.greenAccent,
@@ -108,7 +108,7 @@ class _AddincomeState extends State<Addincome> {
         Functions().AddIncome(
           context,
           textToDisplay2,
-          selected_form_Income!,
+          selectedFormIncome!,
           fromController.text,
           noteController.text,
         );
@@ -119,130 +119,128 @@ class _AddincomeState extends State<Addincome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            AppBar(
-              title: Text(
-                "Add Income",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.greenAccent,
-                ),
-              ),
-              centerTitle: true,
-              leading: BackButton(color: Colors.greenAccent),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "AMOUNT",
-                  style: TextStyle(color: Colors.grey, fontSize: 18),
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Rwf",
-                      style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      textToDisplay2,
-                      style: TextStyle(
-                        fontSize: 60,
-                        color: Colors.greenAccent,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, left: 10),
-                  child: DropdownButtonFormField(
-                    style: TextStyle(color: Colors.white),
-                    borderRadius: BorderRadius.circular(15),
-                    dropdownColor: const Color.fromARGB(255, 70, 59, 131),
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(10),
-                      labelText: "Via ",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    items: ['Cash', 'Momo', 'Bank'].map((item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                    onChanged: (item) {
-                      setState(() {
-                        selected_form_Income = item!;
-                      });
-                    },
-                  ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    right: 10,
-                    left: 10,
-                    bottom: 10,
-                  ),
-                  child: TextField(
-                    controller: fromController,
-                    decoration: InputDecoration(
-                      labelText: "From",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, left: 10),
-                  child: TextField(
-                    controller: noteController,
-                    decoration: InputDecoration(
-                      maintainHintSize: true,
-                      labelText: "Add a note...",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 320,
-              child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: ButtonsIncome.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisExtent: 80,
-                  crossAxisCount: 3,
-                ),
-                itemBuilder: (BuildContext, index) {
-                  return ButtonsIncome[index];
-                },
-              ),
-            ),
-          ],
+      appBar: AppBar(
+        title: Text(
+          "Add Income",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.greenAccent,
+          ),
         ),
+        centerTitle: true,
+        leading: BackButton(color: Colors.greenAccent),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "AMOUNT",
+                style: TextStyle(color: Colors.grey, fontSize: 18),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Rwf",
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    textToDisplay2,
+                    style: TextStyle(
+                      fontSize: 60,
+                      color: Colors.greenAccent,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10, left: 10),
+                child: DropdownButtonFormField(
+                  style: TextStyle(color: Colors.white),
+                  borderRadius: BorderRadius.circular(15),
+                  dropdownColor: const Color.fromARGB(255, 70, 59, 131),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10),
+                    labelText: "Via ",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  items: ['Cash', 'Momo', 'Bank'].map((item) {
+                    return DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(item),
+                    );
+                  }).toList(),
+                  onChanged: (item) {
+                    setState(() {
+                      selectedFormIncome = item!;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 10,
+                  left: 10,
+                  bottom: 10,
+                ),
+                child: TextField(
+                  controller: fromController,
+                  decoration: InputDecoration(
+                    labelText: "From",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10, left: 10),
+                child: TextField(
+                  controller: noteController,
+                  decoration: InputDecoration(
+                    maintainHintSize: true,
+                    labelText: "Add a note...",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 320,
+            child: GridView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: buttonsIncome.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisExtent: 80,
+                crossAxisCount: 3,
+              ),
+              itemBuilder: (_, index) {
+                return buttonsIncome[index];
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

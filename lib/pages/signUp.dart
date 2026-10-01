@@ -20,12 +20,10 @@ class _SignupState extends State<Signup> {
   bool isLoading = false;
   final auth = Authfunction();
 
-  void SignUp() async {
-    showDialog(
-      context: context,
-      builder: (context) =>
-          AlertDialog(content: Center(child: CircularProgressIndicator())),
-    );
+  void signUp() async {
+    setState(() {
+      isLoading = true;
+    });
     final names = namesController.text;
     final email = emailController.text;
     final password = passwordController.text;
@@ -51,17 +49,21 @@ class _SignupState extends State<Signup> {
       return;
     } else {
       try {
-        await auth.SignUp(email, password);
-        await Supabase.instance.client.from('profiles').update({
+        final profileId = await auth.SignUp(email, password);
+        await Supabase.instance.client.from('profiles').insert({
+          'id':profileId.user?.id,
           'names': namesController.text,
+          'email': emailController.text,
         });
         emailController.clear();
         namesController.clear();
         passwordController.clear();
         confirmPasswordController.clear();
-        Navigator.pop(context);
+        if(mounted)Navigator.pop(context);
       } catch (e) {
-        isLoading = false;
+        setState(() {
+          isLoading = false;
+        });
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -110,6 +112,7 @@ class _SignupState extends State<Signup> {
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: "Names",
+                    labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -122,6 +125,7 @@ class _SignupState extends State<Signup> {
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: "Email",
+                     labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -135,6 +139,7 @@ class _SignupState extends State<Signup> {
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: "Password",
+                     labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -147,7 +152,8 @@ class _SignupState extends State<Signup> {
                   controller: confirmPasswordController,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    labelText: "Confirm Passsword",
+                    labelText: "Confirm Password",
+                     labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -155,8 +161,8 @@ class _SignupState extends State<Signup> {
                 ),
                 SizedBox(height: 20),
                 Button2(
-                  onPressed: () => SignUp(),
-                  name: "Sign up",
+                  onPressed: () => isLoading ? null : signUp(),
+                  name: isLoading ? "Signing up..." : "Sign up",
                   color: Colors.greenAccent,
                 ),
                 SizedBox(height: 10),
@@ -168,7 +174,7 @@ class _SignupState extends State<Signup> {
                       style: TextStyle(fontSize: 16),
                     ),
                     InkWell(
-                      onTap: () => Navigator.push(
+                      onTap: () => isLoading ? null : Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Login()),
                       ),

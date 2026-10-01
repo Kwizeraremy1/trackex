@@ -7,7 +7,7 @@ void main() async {
 
   await Supabase.initialize(
     url: "https://lgfcrexuvdxjlhmnhgjp.supabase.co",
-    anonKey: "sb_secret_pce4OCQO7Lz9mW-KNRFF7w_RJRFTet2",
+    anonKey: "sb_publishable_n8U1zGyzaFxaCkN_3suiHA_V8g1ubob",
   );
 
   runApp(const MyApp());

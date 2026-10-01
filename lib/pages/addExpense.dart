@@ -13,9 +13,9 @@ class Addexpense extends StatefulWidget {
 class _AddexpenseState extends State<Addexpense> {
   String textToDisplay1 = '0';
   final addNote = TextEditingController();
-  final To = TextEditingController();
-  String? selected_category;
-  String? selected_form;
+  final reciever = TextEditingController();
+  String? selectedCategory;
+  String? selectedForm;
   final db = Databasedata();
 
   void handleNumberPress(String num) {
@@ -45,23 +45,31 @@ class _AddexpenseState extends State<Addexpense> {
   }
 
   void upLoad() async {
-    final form = selected_form;
-    final cat = selected_category;
-    final Add = addNote.text;
+    final form = selectedForm;
+    final cat = selectedCategory;
+    final add = addNote.text;
     int? finalAmount = int.tryParse(textToDisplay1);
     final supabase = Supabase.instance.client;
     final userId = supabase.auth.currentUser!.id;
-    final to = To.text;
+    final to = reciever.text;
     if (finalAmount == 0) {
-      print("you can't spend 0 Rwf");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("you can't spend 0 Rwf")),
+      );
       return;
     } else if (cat == null) {
-      print("please!!!!!, Select where you are spending to");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("please!!!!!, Select where you are spending to")),
+      );
       return;
     } else if (form == null) {
-      print("Enter form of payment");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("please!!!!!, Enter form of payment")),
+      );
     } else if (to.isEmpty) {
-      print("please!!!!!, Enter who you are giving money to");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("please!!!!!, Enter who you are giving money to")),
+      );
     } else {
       showDialog(
         context: context,
@@ -91,7 +99,7 @@ class _AddexpenseState extends State<Addexpense> {
             'CategoryId': int.tryParse(cat),
             'type': form,
             'to': to,
-            'note': Add,
+            'note': add,
           });
         } else {
           total = (total ?? 0) + (finalAmount ?? 0);
@@ -106,7 +114,7 @@ class _AddexpenseState extends State<Addexpense> {
             'CategoryId': int.tryParse(cat),
             'type': form,
             'to': to,
-            'note': Add,
+            'note': add,
           });
         }
         Navigator.of(context).pop();
@@ -115,12 +123,12 @@ class _AddexpenseState extends State<Addexpense> {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text('$e')));
-        Navigator.pop(context);
+        if(mounted)Navigator.pop(context);
       }
     }
   }
 
-  late final List ButtonsExpense = [
+  late final List buttonsExpense = [
     CalButton(text: "1", onPressed: () => handleNumberPress('1')),
     CalButton(text: "2", onPressed: () => handleNumberPress('2')),
     CalButton(text: "3", onPressed: () => handleNumberPress('3')),
@@ -142,21 +150,21 @@ class _AddexpenseState extends State<Addexpense> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Add Expense",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.blueAccent,
+          ),
+        ),
+        centerTitle: true,
+        leading: BackButton(color: Colors.blueAccent),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          AppBar(
-            title: Text(
-              "Add Expense",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueAccent,
-              ),
-            ),
-            centerTitle: true,
-            leading: BackButton(color: Colors.blueAccent),
-          ),
           Text("AMOUNT", style: TextStyle(color: Colors.grey, fontSize: 18)),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -187,8 +195,8 @@ class _AddexpenseState extends State<Addexpense> {
                 padding: const EdgeInsets.only(right: 10, left: 10),
                 child: FutureBuilder(
                   future: db.getCategory(),
-                  builder: (context, Snapshot) {
-                    if (Snapshot.connectionState == ConnectionState.waiting) {
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
                       return Container(
                         height: 50,
                         width: double.infinity,
@@ -203,9 +211,9 @@ class _AddexpenseState extends State<Addexpense> {
                         ),
                       );
                     }
-                    final category = Snapshot.data;
+                    final category = snapshot.data;
                     return DropdownButtonFormField(
-                      initialValue: selected_category,
+                      initialValue: selectedCategory,
                       style: TextStyle(color: Colors.white),
                       borderRadius: BorderRadius.circular(15),
                       dropdownColor: const Color.fromARGB(255, 70, 59, 131),
@@ -224,7 +232,7 @@ class _AddexpenseState extends State<Addexpense> {
                       }).toList(),
                       onChanged: (item) {
                         setState(() {
-                          selected_category = item!;
+                          selectedCategory = item!;
                         });
                       },
                     );
@@ -253,7 +261,7 @@ class _AddexpenseState extends State<Addexpense> {
                   }).toList(),
                   onChanged: (item) {
                     setState(() {
-                      selected_form = item!;
+                      selectedForm = item!;
                     });
                   },
                 ),
@@ -262,7 +270,7 @@ class _AddexpenseState extends State<Addexpense> {
               Padding(
                 padding: const EdgeInsets.only(right: 10, left: 10, bottom: 10),
                 child: TextField(
-                  controller: To,
+                  controller: reciever,
                   decoration: InputDecoration(
                     labelText: "To",
                     border: OutlineInputBorder(
@@ -291,14 +299,14 @@ class _AddexpenseState extends State<Addexpense> {
           SizedBox(
             height: 320,
             child: GridView.builder(
-              itemCount: ButtonsExpense.length,
+              itemCount: buttonsExpense.length,
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisExtent: 80,
                 crossAxisCount: 3,
               ),
-              itemBuilder: (BuildContext, index) {
-                return ButtonsExpense[index];
+              itemBuilder: (_, index) {
+                return buttonsExpense[index];
               },
             ),
           ),

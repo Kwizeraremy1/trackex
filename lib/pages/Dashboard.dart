@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trackex/Auth/authFunction.dart';
 import 'package:trackex/database/databaseData.dart';
-import 'package:trackex/pages/AddIncome.dart';
+import 'package:trackex/pages/addIncome.dart';
 import 'package:trackex/pages/addExpense.dart';
 import 'package:trackex/pages/catHistory.dart';
 import 'package:trackex/pages/profile.dart';
